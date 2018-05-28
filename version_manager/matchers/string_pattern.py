@@ -2,6 +2,7 @@ import re
 
 from .pattern import Pattern, TrackedVersion
 from .regex_pattern import RegExPattern
+from version_manager.styling import warn
 
 
 class StringPattern(Pattern):
@@ -13,7 +14,11 @@ class StringPattern(Pattern):
         m = StringPattern.RE.match(expression)
 
         if m.group(2) == '##' or m.group(3) == '#':
-            print('old ver')
+            print(warn(
+                "Version matched using expression '%s' "
+                "still uses the old '##' notation for delimiting the "
+                "version. This is not supported anymore since # denotes "
+                "a comment in YAML. Use '**' instead." % expression))
 
         regexp_value = ('^()' if m.group(2) == '^^' else '(%s)' % re.escape(m.group(1))) + \
             '(.*?)' + \

@@ -4,11 +4,18 @@ import sys
 import argparse
 import glob
 
-from settings_reader import read_settings_file, Pattern
-from options_set import get_parameter_values
-from util_find import find
+from .settings_reader import read_settings_file
+from .options_set import get_parameter_values
+from .util_find import find
+from .matchers.pattern import Pattern
+from .styling import red, green, yellow, cyan
 
 from typing import Callable, Iterable, TypeVar, Union, Dict, List  # NOQA
+import colorama
+
+
+colorama.init()
+
 
 parser = argparse.ArgumentParser(description='Versions processor')
 
@@ -34,7 +41,15 @@ if argv.version:
                            versions_to_process)
 
     if not tracked_version:
-        print("")
+        print(red(
+            "Tracked version '%s' does not exist. Available are: "
+            "%s." % (
+                argv.version,
+                ", ".join(
+                    map(lambda it: it.name, versions_to_process)
+                )
+            )
+        ))
         sys.exit(1)
 
     print(tracked_version.version)
@@ -43,6 +58,8 @@ if argv.version:
 if argv.all:
     for it in versions_to_process:
         print("%s => %s" % (it.name, it.version))
+
+    sys.exit(0)
 
 
 files_to_process: Dict[str, List[Pattern]] = dict()
@@ -53,7 +70,7 @@ for tracked_version in versions_to_process:
         resolved_names = glob.glob(file_name)
 
         if not resolved_names:
-            print('')
+            print(red('Unable to find any files for glob %s.' % file_name))
             sys.exit(2)
 
         for resolved_name in resolved_names:
@@ -66,20 +83,23 @@ for resolved_name, version_patterns in files_to_process.items():
         content = resolved_file.read()
         new_content = content
 
-    print("Patching")
+    print(cyan("Patching %s:" % resolved_name))
 
     for version_pattern in version_patterns:
         tracked_version = version_pattern.tracked_version
-        print('* ')
+        print(green('* %s@%s' % (tracked_version.name, tracked_version.version)))
 
         new_content = version_pattern.apply_pattern(new_content)
 
         if version_pattern.match_count != version_pattern.expected_count:
-            print('error')
+            print(red('Got %d matches instead of %d.' % (
+                version_pattern.match_count,
+                version_pattern.expected_count)))
             sys.exit(3)
 
     if content == new_content:
-        print('same content')
+        print(cyan("Content for %s is not changed. Won't patch it." %
+                   resolved_name))
         continue
 
     changed_files = True
@@ -87,6 +107,7 @@ for resolved_name, version_patterns in files_to_process.items():
     with open(resolved_name, 'w', encoding='utf-8') as output:
         output.write(new_content)
 
-    print('Updated ')
+    print(yellow('Updated %s' % resolved_name))
 
+colorama.deinit()
 sys.exit(0 if changed_files else 200)

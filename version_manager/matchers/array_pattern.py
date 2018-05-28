@@ -23,4 +23,3 @@ class ArrayPattern(Pattern):
     def expected_count(self) -> int:
         return sum(map(lambda it: it.expected_count,
                        self.delegate_patterns))
-

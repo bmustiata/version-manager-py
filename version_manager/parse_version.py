@@ -4,9 +4,9 @@ import subprocess
 import re
 from os import path
 
-from interfaces import TrackedVersionSet
-from util_find import find
-from settings_reader import read_settings_file
+from .matchers.pattern import TrackedVersionSet
+from .util_find import find
+from .settings_reader import read_settings_file
 
 
 setting_files: Dict[str, TrackedVersionSet] = dict()

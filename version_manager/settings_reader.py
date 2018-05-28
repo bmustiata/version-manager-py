@@ -1,11 +1,11 @@
-from typing import Dict, List
+from typing import Dict
 import yaml
 import sys
 from os import path
 
-from parse_version import parse_version
-from match_builder import match_builder
-from interfaces import TrackedVersionSet, TrackedVersion
+from .matcher_builder import matcher_builder
+from .matchers.pattern import TrackedVersionSet, TrackedVersion
+from version_manager.styling import red
 
 
 def read_settings_file(settings_file: str,
@@ -20,19 +20,20 @@ def read_settings_file(settings_file: str,
     with open(settings_file, encoding='utf-8') as stream:
         settings = yaml.load(stream)
 
-    result = TrackedVersionSet()
+    result = list()
 
     for name, tracked_entry in settings.items():
         tracked_version: TrackedVersion = TrackedVersion(name)
         tracked_version.version = override_settings[name] if \
-                                  tracked_version.name in override_settings else \
-                                  parse_version(tracked_version.version, override_settings)
+            name in override_settings else \
+            parse_version(tracked_entry['version'], override_settings)
 
-        tracked_files = tracked_entry.files if tracked_entry.files else {}
+        tracked_files = tracked_entry['files'] if 'files' in tracked_entry else {}
 
         for file_name in tracked_files.keys():
-            tracked_version.files[file_name] = match_builder(tracked_version,
-                                                             tracked_files[file_name])
+            tracked_file = matcher_builder(tracked_version,
+                                           tracked_files[file_name])
+            tracked_version.files[file_name] = tracked_file
 
         result.append(tracked_version)
 
@@ -40,4 +41,7 @@ def read_settings_file(settings_file: str,
 
 
 def report_missing_settings_file(settings_file: str) -> None:
-    print("config missing")
+    print(red("%s configuration file is missing." % settings_file))
+
+
+from .parse_version import parse_version

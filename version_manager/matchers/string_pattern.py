@@ -15,12 +15,14 @@ class StringPattern(Pattern):
         if m.group(2) == '##' or m.group(3) == '#':
             print('old ver')
 
-        regexp_value = ('^()' if m.group(2) == '^^' else '(%s)' % escape_string_regexp(m.group(1))) + \
-                        '(.*?)' + \
-                        ('$' if m.group(3) == '$$' else '(%s)' % escape_string_regexp(m.group(4)))
+        regexp_value = ('^()' if m.group(2) == '^^' else '(%s)' % re.escape(m.group(1))) + \
+            '(.*?)' + \
+            ('$' if m.group(3) == '$$' else '(%s)' % re.escape(m.group(4)))
 
         self.regex_pattern = RegExPattern(tracked_version, regexp_value)
 
+    def apply_pattern(self, input_str: str) -> str:
+        return self.regex_pattern.apply_pattern(input_str)
 
-def escape_string_regexp(s: str) -> str:
-    pass
+    def match_count(self) -> int:
+        return self.regex_pattern.match_count

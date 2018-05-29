@@ -24,6 +24,7 @@ class StringPattern(Pattern):
             '(.*?)' + \
             ('$' if m.group(3) == '$$' else '(%s)' % re.escape(m.group(4)))
 
+        self.tracked_version = tracked_version
         self.regex_pattern = RegExPattern(tracked_version, regexp_value)
 
     def apply_pattern(self, input_str: str) -> str:

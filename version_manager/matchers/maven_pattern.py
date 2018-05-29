@@ -17,6 +17,7 @@ class MavenPattern(Pattern):
                        "<version>)(.*?)(</version>)" % \
                        (re.escape(m.group(1)), re.escape(m.group(2)))
 
+        self.tracked_version = tracked_version
         self.regex_pattern = RegExPattern(tracked_version, regexp_value)
 
     def apply_pattern(self, input: str) -> str:

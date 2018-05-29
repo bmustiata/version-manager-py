@@ -1,7 +1,7 @@
 from .pattern import TrackedVersion, Pattern
 
 
-class MatchConter(Pattern):
+class MatchCounter(Pattern):
     def __init__(self,
                  tracked_version: TrackedVersion,
                  delegate_pattern: Pattern,

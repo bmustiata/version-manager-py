@@ -7,7 +7,10 @@ class RegExPattern(Pattern):
     def __init__(self,
                  tracked_version: TrackedVersion,
                  expression: str) -> None:
-        self.RE = re.compile(expression, re.M | re.S)
+        try:
+            self.RE = re.compile(expression, re.M | re.S)
+        except Exception as e:
+            raise Exception("Unable to compile regex expression: %s" % expression, e)
         self.tracked_version = tracked_version
         self._match_count = 0
 

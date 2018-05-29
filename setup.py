@@ -13,7 +13,7 @@ with open('requirements.txt') as requirements_file:
 
 setup(
     name='version-manager',
-    version='1.0.0',
+    version='2.0.0',
     entry_points = {
         "console_scripts": [
             "version-manager = version_manager.__main__"

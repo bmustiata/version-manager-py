@@ -2,7 +2,7 @@ import re
 
 from .pattern import Pattern, TrackedVersion
 from .regex_pattern import RegExPattern
-from version_manager.styling import warn
+from version_manager.styling import eprint, yellow
 
 
 class StringPattern(Pattern):
@@ -14,7 +14,7 @@ class StringPattern(Pattern):
         m = StringPattern.RE.match(expression)
 
         if m.group(2) == '##' or m.group(3) == '#':
-            print(warn(
+            eprint(yellow(
                 "Version matched using expression '%s' "
                 "still uses the old '##' notation for delimiting the "
                 "version. This is not supported anymore since # denotes "
@@ -29,5 +29,10 @@ class StringPattern(Pattern):
     def apply_pattern(self, input_str: str) -> str:
         return self.regex_pattern.apply_pattern(input_str)
 
+    @property
     def match_count(self) -> int:
         return self.regex_pattern.match_count
+
+    @property
+    def expected_count(self) -> int:
+        return self.regex_pattern.expected_count

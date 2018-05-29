@@ -13,11 +13,13 @@ class MatchConter(Pattern):
     def apply_pattern(self, input: str) -> str:
         return self.delegate_pattern.apply_pattern(input)
 
+    @property
     def match_count(self) -> int:
         if self._expected_count < 0:
             return self._expected_count
 
         return self.delegate_pattern.match_count
 
+    @property
     def expected_count(self) -> int:
-        return this._expected_count
+        return self._expected_count

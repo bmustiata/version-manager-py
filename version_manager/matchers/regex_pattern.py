@@ -35,9 +35,9 @@ class RegExPattern(Pattern):
 
         for match in found_matches:
             result += original_text[original_index:match.start()] + \
-                      match.group(1) + \
-                      self.tracked_version.version + \
-                      (match.group(3) if len(match.groups()) >= 3 else '')
+                match.group(1) + \
+                self.tracked_version.version + \
+                (match.group(3) if len(match.groups()) >= 3 else '')
 
             original_index = match.start() + len(match.group(0))
 

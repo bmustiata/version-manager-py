@@ -17,8 +17,8 @@ def read_settings_file(settings_file: str,
             report_missing_settings_file(settings_file)
             sys.exit(1)
 
-    with open(settings_file, encoding='utf-8') as stream:
-        settings = yaml.load(stream)
+    with open(settings_file, 'r', encoding='utf-8') as stream:
+        settings = list(yaml.safe_load_all(stream))[0]
 
     result = list()
 

@@ -22,8 +22,10 @@ class MavenPattern(Pattern):
     def apply_pattern(self, input: str) -> str:
         return self.regex_pattern.apply_pattern(input)
 
+    @property
     def match_count(self) -> int:
         return self.regex_pattern.match_count
 
+    @property
     def expected_count(self) -> int:
         return self.regex_pattern.expected_count

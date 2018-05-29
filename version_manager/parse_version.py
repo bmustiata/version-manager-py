@@ -71,7 +71,10 @@ def parse_version_with_path(version: str,
         if '`' not in version and '$' not in version:
             return version
 
-        return subprocess.check_output(['/bin/sh', '-c', version])
+        result: str = subprocess.check_output(['/bin/sh', '-c', 'echo %s' % version])\
+                                .decode('utf-8')
+
+        return result.strip()
     finally:
         os.chdir(old_path)
 

@@ -1,4 +1,9 @@
 import termcolor
+import sys
+
+
+def eprint(*args) -> None:
+    print(*args, file=sys.stderr)
 
 
 def red(s: str) -> str:

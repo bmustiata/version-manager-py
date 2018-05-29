@@ -74,12 +74,16 @@ for tracked_version in versions_to_process:
             sys.exit(2)
 
         for resolved_name in resolved_names:
-            file_patterns = files_to_process[resolved_name] or []
+            if resolved_name in files_to_process:
+                file_patterns = files_to_process[resolved_name]
+            else:
+                file_patterns = []
+                files_to_process[resolved_name] = file_patterns
+
             file_patterns.append(version_pattern)
-            files_to_process[resolved_name] = file_patterns
 
 for resolved_name, version_patterns in files_to_process.items():
-    with open(resolved_name) as resolved_file:
+    with open(resolved_name, 'r', encoding='utf-8') as resolved_file:
         content = resolved_file.read()
         new_content = content
 

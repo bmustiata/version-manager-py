@@ -16,10 +16,12 @@ class ArrayPattern(Pattern):
 
         return input
 
+    @property
     def match_count(self) -> int:
         return sum(map(lambda it: it.match_count,
                        self.delegate_patterns))
 
+    @property
     def expected_count(self) -> int:
         return sum(map(lambda it: it.expected_count,
                        self.delegate_patterns))

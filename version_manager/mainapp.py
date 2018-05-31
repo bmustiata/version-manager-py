@@ -62,7 +62,6 @@ def main():
         sys.exit(0)
 
     files_to_process: Dict[str, List[Pattern]] = dict()
-    changed_files: bool = False
 
     for tracked_version in versions_to_process:
         for file_name, version_pattern in tracked_version.files.items():
@@ -105,8 +104,6 @@ def main():
                        resolved_name))
             continue
 
-        changed_files = True
-
         with open(resolved_name, 'w', encoding='utf-8') as output:
             output.write(new_content)
 
@@ -114,6 +111,7 @@ def main():
 
     colorama.deinit()
     sys.exit(0)
+
 
 if __name__ == '__main__':
     main()

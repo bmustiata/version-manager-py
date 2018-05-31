@@ -8,7 +8,7 @@ stage('Build version-manager') {
             checkout scm
 
             sh """
-                /src/dist/version-manager
+                /src/dist/version-manager --all
             """
         }
 

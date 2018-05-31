@@ -11,5 +11,10 @@ stage('Build version-manager') {
                 /src/dist/version-manager
             """
         }
+
+        dockerRm containers: ['version_manager']
+        dockerRun image: 'version_manager',
+            name: 'version_manager',
+            command: 'ls'
     }
 }

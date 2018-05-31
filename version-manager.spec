@@ -1,10 +1,12 @@
 # -*- mode: python -*-
+import os.path
+
 
 block_cipher = None
 
 
 a = Analysis(['version_manager/launcher.py'],
-             pathex=['/home/raptor/projects/version-manager-py'],
+             pathex=[os.path.curdir],
              binaries=[],
              datas=[],
              hiddenimports=[],

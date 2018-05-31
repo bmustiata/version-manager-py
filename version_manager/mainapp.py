@@ -5,7 +5,9 @@ import argparse
 import glob
 
 from .settings_reader import read_settings_file
-from .options_set import get_parameter_values
+from .options_set import \
+    get_parameter_values, \
+    get_parameters_from_file
 from .util_find import find
 from .matchers.pattern import Pattern
 from .styling import red, green, yellow, cyan
@@ -29,11 +31,15 @@ def main():
                         nargs='+',
                         metavar="NAME=VAL",
                         help='Set values overriding what\'s in the yml files.')
+    parser.add_argument('--load', '-l',
+                        metavar="FILE",
+                        help='Override versions from the given yml file.')
 
     argv = parser.parse_args(sys.argv[1:])
 
     default_settings_file = path.realpath(path.join(os.getcwd(), 'versions.json'))
-    override_parameters = get_parameter_values(argv.set)
+    override_parameters = get_parameters_from_file(argv.load)
+    override_parameters = get_parameter_values(override_parameters, argv.set)
     versions_to_process = read_settings_file(default_settings_file, override_parameters)
 
     if argv.version:

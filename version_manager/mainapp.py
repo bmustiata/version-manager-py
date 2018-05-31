@@ -113,8 +113,7 @@ def main():
         print(yellow('Updated %s' % resolved_name))
 
     colorama.deinit()
-    sys.exit(0 if changed_files else 200)
-
+    sys.exit(0)
 
 if __name__ == '__main__':
     main()

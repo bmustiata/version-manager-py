@@ -16,7 +16,7 @@ setup(
     version='2.0.0',
     entry_points = {
         "console_scripts": [
-            "version-manager = version_manager.__main__"
+            "version-manager = version_manager.launcher:launch"
         ]
     },
     description='version-manager',

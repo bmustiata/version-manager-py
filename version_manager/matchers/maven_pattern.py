@@ -12,6 +12,9 @@ class MavenPattern(Pattern):
                  expression: str) -> None:
         m = MavenPattern.RE.match(expression)
 
+        if not m:
+            raise Exception("Unable to parse %s as a maven pattern.", expression)
+
         regexp_value = "(<groupId>%s</groupId>\\s*"\
                        "<artifactId>%s</artifactId>\\s*"\
                        "<version>)(.*?)(</version>)" % \

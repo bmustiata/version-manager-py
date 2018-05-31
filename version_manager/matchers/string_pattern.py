@@ -13,6 +13,9 @@ class StringPattern(Pattern):
                  expression: str) -> None:
         m = StringPattern.RE.match(expression)
 
+        if not m:
+            raise Exception('Unable to parse %s as a string pattern' % expression)
+
         if m.group(2) == '##' or m.group(3) == '#':
             eprint(yellow(
                 "Version matched using expression '%s' "

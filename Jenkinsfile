@@ -1,5 +1,7 @@
 stage('Build version-manager') {
     node {
+        ansiColor('xterm') {
+
         deleteDir()
         checkout scm
 
@@ -16,5 +18,6 @@ stage('Build version-manager') {
         dockerRun image: 'version_manager',
             name: 'version_manager',
             command: 'ls'
+        }
     }
 }

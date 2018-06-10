@@ -6,9 +6,10 @@ from .pattern import Pattern, TrackedVersion
 class RegExPattern(Pattern):
     def __init__(self,
                  tracked_version: TrackedVersion,
-                 expression: str) -> None:
+                 expression: str,
+                 extra_flags: int = re.M | re.S) -> None:
         try:
-            self.RE = re.compile(expression, re.M | re.S)
+            self.RE = re.compile(expression, extra_flags)
         except Exception as e:
             raise Exception("Unable to compile regex expression: %s" % expression, e)
         self.tracked_version = tracked_version

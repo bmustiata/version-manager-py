@@ -30,3 +30,9 @@ stage('Build version-manager') {
         }
     }
 }
+
+stage('Publish docker image') {
+    node {
+        dpush 'version_manager'
+    }
+}

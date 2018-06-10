@@ -1,3 +1,12 @@
+properties([
+    pipelineTriggers([
+        upstream(
+            threshold: 'SUCCESS',
+            upstreamProjects: '/build-system/germaniumhq-python-build-system'
+        )
+    ])
+])
+
 stage('Build version-manager') {
     node {
         ansiColor('xterm') {

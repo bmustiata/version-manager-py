@@ -42,6 +42,7 @@ def main():
     override_parameters = get_parameter_values(override_parameters, argv.set)
     versions_to_process = read_settings_file(default_settings_file, override_parameters)
 
+    # Display a single tracked version
     if argv.version:
         tracked_version = find(lambda it: it.name == argv.version,
                                versions_to_process)
@@ -61,6 +62,7 @@ def main():
         print(tracked_version.version)
         sys.exit(0)
 
+    # Display all tracked versions.
     if argv.all:
         for it in versions_to_process:
             print("%s => %s" % (it.name, it.version))

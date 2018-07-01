@@ -23,19 +23,22 @@ def read_settings_file(settings_file: str,
     result = list()
 
     for name, tracked_entry in settings.items():
-        tracked_version: TrackedVersion = TrackedVersion(name)
-        tracked_version.version = override_settings[name] if \
-            name in override_settings else \
-            parse_version(tracked_entry['version'], override_settings)
+        try:
+            tracked_version: TrackedVersion = TrackedVersion(name)
+            tracked_version.version = override_settings[name] if \
+                name in override_settings else \
+                parse_version(tracked_entry['version'], override_settings)
 
-        tracked_files = tracked_entry['files'] if 'files' in tracked_entry else {}
+            tracked_files = tracked_entry['files'] if 'files' in tracked_entry else {}
 
-        for file_name in tracked_files.keys():
-            tracked_file = matcher_builder(tracked_version,
-                                           tracked_files[file_name])
-            tracked_version.files[file_name] = tracked_file
+            for file_name in tracked_files.keys():
+                tracked_file = matcher_builder(tracked_version,
+                                               tracked_files[file_name])
+                tracked_version.files[file_name] = tracked_file
 
-        result.append(tracked_version)
+            result.append(tracked_version)
+        except Exception as e:
+            raise Exception("Unable to read value: %s" % name, e)
 
     return result
 

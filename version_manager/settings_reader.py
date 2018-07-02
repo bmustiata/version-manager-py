@@ -10,6 +10,13 @@ from version_manager.styling import red
 
 def read_settings_file(settings_file: str,
                        override_settings: Dict[str, str]) -> TrackedVersionSet:
+    """
+    Read the configured versions from the files. If a version is defined in the
+    override_settings, then that value is going to be used, instead of what's
+    read from the file.
+
+    This allows overwriting versions, regardless of where they're read from.
+    """
     if not path.exists(settings_file):
         settings_file = path.join(path.dirname(settings_file), 'versions.yml')
 

@@ -12,6 +12,11 @@ class TestMavenPattern(unittest.TestCase):
                 <artifactId>test</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.ciplogic</groupId>
+                <artifactId>test2</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
         """
 
         tracked_version = TrackedVersion("test_version")
@@ -25,6 +30,11 @@ class TestMavenPattern(unittest.TestCase):
                 <groupId>com.ciplogic</groupId>
                 <artifactId>test</artifactId>
                 <version>2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ciplogic</groupId>
+                <artifactId>test2</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
         """
 

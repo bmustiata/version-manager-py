@@ -1,4 +1,6 @@
-def init(): ...
+def init():
+    pass
 
 
-def deinit(): ...
+def deinit():
+    pass

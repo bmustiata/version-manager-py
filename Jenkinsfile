@@ -10,6 +10,8 @@ stage('Build version-manager') {
             sh """
                 /src/dist/version-manager --all
             """
+
+            archiveArtifacts artifacts: "/src/dist/version-manager"
         }
 
         dockerRm containers: ['version_manager']

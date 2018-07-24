@@ -11,6 +11,7 @@ from .options_set import \
 from .util_find import find
 from .matchers.pattern import Pattern
 from termcolor_util import red, green, yellow, cyan
+from version_manager.current_version import print_current_tag_version
 
 from typing import Callable, Iterable, TypeVar, Union, Dict, List  # NOQA
 import colorama
@@ -24,7 +25,7 @@ def main():
     parser.add_argument('--version', '-v',
                         action='store_true',
                         help='Display the version of a single tracked version.')
-    parser.add_argument('--all', '-a',
+    parser.add_argument('--all', '-a', '--list',
                         action='store_true',
                         help='Display all the tracked versions and their values.')
     parser.add_argument('--set', '-s',
@@ -34,6 +35,9 @@ def main():
     parser.add_argument('--load', '-l',
                         metavar="FILE",
                         help='Override versions from the given yml file.')
+    parser.add_argument('-t', '--tag-name', '--tag',
+                        action='store_true',
+                        help='Get the current name to use in general tags.')
 
     argv = parser.parse_args(sys.argv[1:])
 
@@ -65,6 +69,10 @@ def main():
         for it in versions_to_process:
             print("%s => %s" % (it.name, it.version))
 
+        sys.exit(0)
+
+    if argv.tag_name:
+        print_current_tag_version()
         sys.exit(0)
 
     files_to_process: Dict[str, List[Pattern]] = dict()

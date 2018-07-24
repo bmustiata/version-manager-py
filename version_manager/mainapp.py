@@ -10,7 +10,7 @@ from .options_set import \
     get_parameters_from_file
 from .util_find import find
 from .matchers.pattern import Pattern
-from .styling import red, green, yellow, cyan
+from termcolor_util import red, green, yellow, cyan
 
 from typing import Callable, Iterable, TypeVar, Union, Dict, List  # NOQA
 import colorama

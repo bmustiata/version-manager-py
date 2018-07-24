@@ -2,10 +2,10 @@ from typing import Dict
 import yaml
 import sys
 from os import path
+from termcolor_util import red
 
 from .matcher_builder import matcher_builder
 from .matchers.pattern import TrackedVersionSet, TrackedVersion
-from version_manager.styling import red
 
 
 def read_settings_file(settings_file: str,

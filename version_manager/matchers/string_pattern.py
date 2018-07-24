@@ -2,7 +2,7 @@ import re
 
 from .pattern import Pattern, TrackedVersion
 from .regex_pattern import RegExPattern
-from version_manager.styling import eprint, yellow
+from termcolor_util import eprint, yellow
 
 
 class StringPattern(Pattern):

@@ -1,20 +1,23 @@
 from os import path
-import os
 import sys
+import os
 import argparse
 import glob
+import colorama
 
-from .settings_reader import read_settings_file
-from .options_set import \
+from version_manager.settings_reader import read_settings_file
+from version_manager.options_set import \
     get_parameter_values, \
     get_parameters_from_file
-from .util_find import find
-from .matchers.pattern import Pattern
+from version_manager.matchers.pattern import Pattern
 from termcolor_util import red, green, yellow, cyan, eprint
-from version_manager.current_version import print_current_tag_version
 
-from typing import Callable, Iterable, TypeVar, Union, Dict, List  # NOQA
-import colorama
+from version_manager.command_current_version import print_current_tag_version
+from version_manager.command_version_list import \
+    print_single_tracked_version, \
+    print_all_tracked_versions
+
+from typing import Dict, List
 
 
 def main():
@@ -47,28 +50,11 @@ def main():
     versions_to_process = read_settings_file(default_settings_file, override_parameters)
 
     if argv.version:
-        tracked_version = find(lambda it: it.name == argv.version,
-                               versions_to_process)
-
-        if not tracked_version:
-            print(red(
-                "Tracked version '%s' does not exist. Available are: "
-                "%s." % (
-                    argv.version,
-                    ", ".join(
-                        map(lambda it: it.name, versions_to_process)
-                    )
-                )
-            ))
-            sys.exit(1)
-
-        print(tracked_version.version)
+        print_single_tracked_version(argv.version, versions_to_process)
         sys.exit(0)
 
     if argv.all:
-        for it in versions_to_process:
-            print("%s => %s" % (it.name, it.version))
-
+        print_all_tracked_versions(versions_to_process)
         sys.exit(0)
 
     if argv.tag_name:

@@ -10,7 +10,7 @@ from .options_set import \
     get_parameters_from_file
 from .util_find import find
 from .matchers.pattern import Pattern
-from termcolor_util import red, green, yellow, cyan
+from termcolor_util import red, green, yellow, cyan, eprint
 from version_manager.current_version import print_current_tag_version
 
 from typing import Callable, Iterable, TypeVar, Union, Dict, List  # NOQA
@@ -74,6 +74,8 @@ def main():
     if argv.tag_name:
         print_current_tag_version()
         sys.exit(0)
+
+    eprint(cyan("Running on %s" % sys.version))
 
     files_to_process: Dict[str, List[Pattern]] = dict()
 

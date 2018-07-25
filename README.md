@@ -1,4 +1,4 @@
-# version-manager 1.7.0
+# vm 2.0.4
 
 Updates versions across multiple files.
 
@@ -26,8 +26,8 @@ germanium:
 
 ## Specifying Versions
 
-The version will be expanded using the shell if it contains a '$' or a '`',
-so you can have a version such as:
+The version value will be expanded using the shell if it contains a '$' or a
+'`', so you can have a version such as:
 
 ```json
 "description": {
@@ -45,8 +45,8 @@ there, using the `parent:` notation in the version:
 ```
 
 The path will point to the `versions.json/yml` file, or to the folder that
-contains the `versions.json/yml` file, and the `germaniumdrivers` version will
-be used.
+contains the `versions.json/yml` file, and after that fill will be read and
+interpreted the `germaniumdrivers` version will be used.
 
 Versions can be also manually overriden from the command line, using the
 `--set` or `-s` flag, for example:
@@ -201,6 +201,6 @@ or even individual expressions:
 1. Files are actually `glob` patterns, so you can match `**/*.js` for example.
 2. The configuration files can be yml.
 3. `version-manager` will output the following error codes: 0 when no files are
-   changed, 200 when files are changed successfuly, or a non zero error code in
+   changed, 0 when files are changed successfuly, or a non zero error code in
    case of error.
 

@@ -12,15 +12,16 @@ with open('requirements.txt') as requirements_file:
 
 
 setup(
-    name='version-manager',
-    version='2.0.3',
-    entry_points = {
+    name='vm',
+    version='2.0.4',
+    entry_points={
         "console_scripts": [
-            "version-manager = version_manager.launcher:launch"
+            "version-manager = version_manager.launcher:launch",
+            "vm = version_manager.launcher:launch",
         ]
     },
-    description='version-manager',
-    long_description = readme,
+    description='vm: version manager',
+    long_description=readme,
     author='Bogdan Mustiata',
     author_email='bogdan.mustiata@gmail.com',
     license='BSD',

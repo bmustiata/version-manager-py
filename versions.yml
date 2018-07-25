@@ -1,6 +1,6 @@
 # self
 version:
-  version: 2.0.9
+  version: 2.0.10
   files:
     setup.py: version='**VERSION**',
     README.md: '# vm **VERSION$$'

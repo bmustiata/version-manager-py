@@ -1,5 +1,5 @@
-vm 2.0.9
-========
+vm 2.0.10
+=========
 
 Updates versions across multiple files.
 
@@ -8,7 +8,7 @@ Install
 
 .. code:: sh
 
-    pip install version-manager
+    pip install vm
 
 Usage
 -----
@@ -57,7 +57,7 @@ Versions can be also manually overriden from the command line, using the
 
 .. code:: sh
 
-    version-manager -s germanium=2.0.8
+    vm -s germanium=2.0.8
 
 This will ignore the value specified in the versions.yml file, and use
 the specified one.
@@ -210,6 +210,6 @@ Notes
 1. Files are actually ``glob`` patterns, so you can match ``**/*.js``
    for example.
 2. The configuration files can be yml.
-3. ``version-manager`` will output the following error codes: 0 when no
-   files are changed, 0 when files are changed successfuly, or a non
-   zero error code in case of error.
+3. ``vm`` will output the following error codes: 0 when no files are
+   changed, 0 when files are changed successfuly, or a non zero error
+   code in case of error.

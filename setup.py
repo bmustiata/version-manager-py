@@ -14,7 +14,7 @@ packages = find_packages()
 
 setup(
     name='vm',
-    version='2.0.9',
+    version='2.0.10',
     url='https://github.com/bmustiata/version-manager-py',
     entry_points={
         "console_scripts": [

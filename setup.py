@@ -1,7 +1,8 @@
 from setuptools import setup
+from setuptools import find_packages
 
 
-with open('README.md') as readme_file:
+with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 with open('requirements.txt') as requirements_file:
@@ -26,9 +27,6 @@ setup(
     author_email='bogdan.mustiata@gmail.com',
     license='BSD',
     install_requires=install_requires,
-    packages=[
-        'version_manager',
-        'version_manager.matchers'
-    ]
+    packages=packages
 )
 

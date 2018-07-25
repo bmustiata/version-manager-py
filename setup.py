@@ -1,5 +1,4 @@
-from setuptools import setup
-from setuptools import find_packages
+from setuptools import setup, find_packages
 
 
 with open('README.rst') as readme_file:
@@ -15,7 +14,8 @@ packages = find_packages()
 
 setup(
     name='vm',
-    version='2.0.7',
+    version='2.0.8',
+    url='https://github.com/bmustiata/version-manager-py',
     entry_points={
         "console_scripts": [
             "version-manager = version_manager.launcher:launch",

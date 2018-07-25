@@ -1,19 +1,23 @@
 from os import path
-import os
 import sys
+import os
 import argparse
 import glob
+import colorama
 
-from .settings_reader import read_settings_file
-from .options_set import \
+from version_manager.settings_reader import read_settings_file
+from version_manager.options_set import \
     get_parameter_values, \
     get_parameters_from_file
-from .util_find import find
-from .matchers.pattern import Pattern
-from .styling import red, green, yellow, cyan
+from version_manager.matchers.pattern import Pattern
+from termcolor_util import red, green, yellow, cyan, eprint
 
-from typing import Callable, Iterable, TypeVar, Union, Dict, List  # NOQA
-import colorama
+from version_manager.command_current_version import print_current_tag_version
+from version_manager.command_version_list import \
+    print_single_tracked_version, \
+    print_all_tracked_versions
+
+from typing import Dict, List
 
 
 def main():
@@ -24,7 +28,7 @@ def main():
     parser.add_argument('--version', '-v',
                         action='store_true',
                         help='Display the version of a single tracked version.')
-    parser.add_argument('--all', '-a',
+    parser.add_argument('--all', '-a', '--list',
                         action='store_true',
                         help='Display all the tracked versions and their values.')
     parser.add_argument('--set', '-s',
@@ -34,6 +38,9 @@ def main():
     parser.add_argument('--load', '-l',
                         metavar="FILE",
                         help='Override versions from the given yml file.')
+    parser.add_argument('-t', '--tag-name', '--tag',
+                        action='store_true',
+                        help='Get the current name to use in general tags.')
 
     argv = parser.parse_args(sys.argv[1:])
 
@@ -44,30 +51,19 @@ def main():
 
     # Display a single tracked version
     if argv.version:
-        tracked_version = find(lambda it: it.name == argv.version,
-                               versions_to_process)
-
-        if not tracked_version:
-            print(red(
-                "Tracked version '%s' does not exist. Available are: "
-                "%s." % (
-                    argv.version,
-                    ", ".join(
-                        map(lambda it: it.name, versions_to_process)
-                    )
-                )
-            ))
-            sys.exit(1)
-
-        print(tracked_version.version)
+        print_single_tracked_version(argv.version, versions_to_process)
         sys.exit(0)
 
     # Display all tracked versions.
     if argv.all:
-        for it in versions_to_process:
-            print("%s => %s" % (it.name, it.version))
-
+        print_all_tracked_versions(versions_to_process)
         sys.exit(0)
+
+    if argv.tag_name:
+        print_current_tag_version()
+        sys.exit(0)
+
+    eprint(cyan("Running on %s" % sys.version))
 
     files_to_process: Dict[str, List[Pattern]] = dict()
 

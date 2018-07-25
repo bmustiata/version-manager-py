@@ -44,6 +44,10 @@ def main():
 
     argv = parser.parse_args(sys.argv[1:])
 
+    if argv.tag_name:
+        print_current_tag_version()
+        sys.exit(0)
+
     default_settings_file = path.realpath(path.join(os.getcwd(), 'versions.json'))
     override_parameters = get_parameters_from_file(argv.load)
     override_parameters = get_parameter_values(override_parameters, argv.set)
@@ -57,10 +61,6 @@ def main():
     # Display all tracked versions.
     if argv.all:
         print_all_tracked_versions(versions_to_process)
-        sys.exit(0)
-
-    if argv.tag_name:
-        print_current_tag_version()
         sys.exit(0)
 
     eprint(cyan("Running on %s" % sys.version))

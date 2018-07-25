@@ -1,4 +1,4 @@
-# vm 2.0.11
+# vm 2.0.12
 
 Updates versions across multiple files.
 

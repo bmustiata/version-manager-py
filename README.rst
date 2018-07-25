@@ -1,4 +1,4 @@
-vm 2.0.5
+vm 2.0.7
 ========
 
 Updates versions across multiple files.

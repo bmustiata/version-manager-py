@@ -1,1 +1,1 @@
-{NAME: py3-lib}
+{NAME: py3-lib, arg0: version_manager, version_manager: true}

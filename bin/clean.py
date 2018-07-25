@@ -30,7 +30,7 @@ def remove_single_file(path):
 
 project_remove('dist')
 project_remove('build')
-project_remove('.egg-info')
+project_remove('version_manager.egg-info')
 
 for f, folders, files in os.walk('.'):
     if os.path.basename(f) in ['__pycache__', '.mypy_cache']:

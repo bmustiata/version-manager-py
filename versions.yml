@@ -1,5 +1,5 @@
 # self
-version_manager:
+version:
   version: 2.0.3
   files:
     setup.py: version='**VERSION**',

@@ -1,4 +1,4 @@
-# vm 2.0.8
+# vm 2.0.9
 
 Updates versions across multiple files.
 
@@ -105,7 +105,7 @@ This will construct a RegExp that will match:
 
 In order to specify the matcher, just use:
 
-```yml
+```yaml
 germaniumY
   version: 2.0.0
   files:

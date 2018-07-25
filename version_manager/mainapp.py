@@ -17,16 +17,25 @@ from version_manager.command_version_list import \
     print_single_tracked_version, \
     print_all_tracked_versions
 
-from typing import Dict, List
+from typing import Dict, List, Optional, cast
 
 
-def main():
+class ProgramArguments(object):
+    display: Optional[List[str]]
+    tag_name: Optional[str]
+    load: Optional[str]
+    set: Optional[List[str]]
+    all: bool
+
+
+def main() -> None:
     colorama.init()
 
     parser = argparse.ArgumentParser(description='Versions processor')
 
-    parser.add_argument('--version', '-v',
-                        action='store_true',
+    parser.add_argument('--display', '-d',
+                        metavar='NAME',
+                        nargs=1,
                         help='Display the version of a single tracked version.')
     parser.add_argument('--all', '-a', '--list',
                         action='store_true',
@@ -42,7 +51,7 @@ def main():
                         action='store_true',
                         help='Get the current name to use in general tags.')
 
-    argv = parser.parse_args(sys.argv[1:])
+    argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.tag_name:
         print_current_tag_version()
@@ -54,8 +63,8 @@ def main():
     versions_to_process = read_settings_file(default_settings_file, override_parameters)
 
     # Display a single tracked version
-    if argv.version:
-        print_single_tracked_version(argv.version, versions_to_process)
+    if argv.display:
+        print_single_tracked_version(argv.display[0], versions_to_process)
         sys.exit(0)
 
     # Display all tracked versions.

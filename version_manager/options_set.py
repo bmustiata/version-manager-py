@@ -1,9 +1,9 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 import yaml
 
 
 def get_parameter_values(parameter_values: Dict[str, str],
-                         values_list: List[str]) -> Dict[str, str]:
+                         values_list: Optional[List[str]]) -> Dict[str, str]:
     """
     Override the parameter values that are given in the list.
     It assumes each parameter is in the 'KEY=VALUE' format.
@@ -18,7 +18,7 @@ def get_parameter_values(parameter_values: Dict[str, str],
     return parameter_values
 
 
-def get_parameters_from_file(file_name: str) -> Dict[str, str]:
+def get_parameters_from_file(file_name: Optional[str]) -> Dict[str, str]:
     if not file_name:
         return dict()
 

@@ -4,9 +4,9 @@ import subprocess
 import re
 from os import path
 
-from .matchers.pattern import TrackedVersionSet
-from .util_find import find
-from .settings_reader import read_settings_file
+from version_manager.matchers.pattern import TrackedVersionSet
+from version_manager.util_find import find
+from version_manager.settings_reader import read_settings_file
 
 
 setting_files: Dict[str, TrackedVersionSet] = dict()
@@ -71,7 +71,8 @@ def parse_version_with_path(version: str,
         if '`' not in version and '$' not in version:
             return version
 
-        result: str = subprocess.check_output(['/bin/sh', '-c', 'echo %s' % version])\
+        command = extract_command(version)
+        result: str = subprocess.check_output(['/bin/sh', '-c', command])\
                                 .decode('utf-8')
 
         return result.strip()
@@ -82,3 +83,13 @@ def parse_version_with_path(version: str,
 def parse_version(version: str,
                   overriden_settings: Dict[str, str]) -> str:
     return parse_version_with_path(version, os.getcwd(), overriden_settings)
+
+
+def extract_command(version: str) -> str:
+    if version.startswith('`'):
+        return version[1:-1]
+
+    if version.startswith('$'):
+        return version[2:-1]
+
+    raise Exception(f"Wrong version sent as command: {version}")

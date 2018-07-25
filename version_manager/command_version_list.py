@@ -1,4 +1,4 @@
-from termcolor_util import red, eprint
+from termcolor_util import cyan, red, eprint
 import sys
 
 from version_manager.util_find import find
@@ -28,5 +28,7 @@ def print_single_tracked_version(
 
 def print_all_tracked_versions(versions_to_process: TrackedVersionSet) -> None:
     for it in versions_to_process:
-        print("%s => %s" % (it.name, it.version))
+        print(cyan(it.name, bold=True),
+              '=>',
+              cyan(it.version))
 

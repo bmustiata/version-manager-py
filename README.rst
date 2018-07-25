@@ -1,4 +1,4 @@
-vm 2.0.10
+vm 2.0.11
 =========
 
 Updates versions across multiple files.
@@ -22,10 +22,30 @@ updated using glob patterns:
     germanium:
       version: 1.10.3
       files:
-        "README.*": "^(germanium )(.*?)$"
-        "setup.py": "version='##VERSION##',"
-        "doc/usage/index.adoc": "^(= Germanium v)(.*?)$"
-        "germanium/version.py": "current = \"##VERSION##\""
+        README.*: "^(germanium )(.*?)$"
+        setup.py: "version='**VERSION**',"
+        doc/usage/index.adoc: "^(= Germanium v)(.*?)$"
+        germanium/version.py: "current = \"**VERSION**\""
+
+Help:
+
+.. code:: text
+
+    usage: vm [-h] [--display NAME] [--all] [--set NAME=VAL [NAME=VAL ...]]
+              [--load FILE] [-t]
+
+    Versions processor
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --display NAME, -d NAME
+                            Display the version of a single tracked version.
+      --all, -a, --list     Display all the tracked versions and their values.
+      --set NAME=VAL [NAME=VAL ...], -s NAME=VAL [NAME=VAL ...]
+                            Set values overriding what's in the yml files.
+      --load FILE, -l FILE  Override versions from the given yml file.
+      -t, --tag-name, --tag
+                            Get the current name to use in general tags.
 
 Specifying Versions
 -------------------
@@ -89,11 +109,10 @@ So having a matcher such as:
 
 is equivalent with:
 
-.. code:: json
+.. code:: yaml
 
-    "files": {
-        "README": "(This installs version )(.+?)( of the product\\.)"
-    }
+    files:
+        README: "(This installs version )(.+?)( of the product\\.)"
 
 If the ``**``\ s are replaced with ``^^`` at the beginning, or ``$$`` at
 the end, they will act as RegExp anchors, equivalent to ``^`` and ``$``.
@@ -115,7 +134,7 @@ In order to specify the matcher, just use:
 
 .. code:: yaml
 
-    germaniumY
+    germanium:
       version: 2.0.0
       files:
         pom.xml: maven:com.germaniumhq:germanium

@@ -22,7 +22,7 @@ setup(
             "vm = version_manager.launcher:launch",
         ]
     },
-    description='vm: version manager',
+    description='vm',
     long_description=readme,
     author='Bogdan Mustiata',
     author_email='bogdan.mustiata@gmail.com',

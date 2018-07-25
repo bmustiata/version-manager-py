@@ -15,7 +15,7 @@ packages = find_packages()
 
 setup(
     name='vm',
-    version='2.0.5',
+    version='2.0.6',
     entry_points={
         "console_scripts": [
             "version-manager = version_manager.launcher:launch",

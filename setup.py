@@ -11,6 +11,7 @@ with open('requirements.txt') as requirements_file:
         lambda it: it,
         requirements.splitlines()))
 
+packages = find_packages()
 
 setup(
     name='vm',

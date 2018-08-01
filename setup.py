@@ -7,9 +7,9 @@ with open('README.rst') as readme_file:
 packages = find_packages()
 
 setup(
-    name='version_manager',
-    version='2.0.13',
-    description='version_manager',
+    name='vm',
+    version='2.0.14',
+    description='vm',
     long_description=readme,
     author='Bogdan Mustiata',
     author_email='bogdan.mustiata@gmail.com',

@@ -4,10 +4,10 @@ import os.path
 
 print("Current dir is: %s" % os.path.curdir)
 
-
 block_cipher = None
 
-a = Analysis(['version_manager/launcher.py'],
+
+a = Analysis(['application.py'],
              pathex=[os.path.curdir],
              binaries=[],
              datas=[],
@@ -30,6 +30,6 @@ exe = EXE(pyz,
           name='version-manager',
           debug=False,
           strip=False,
-          upx=False,
+          upx=True,
           runtime_tmpdir=None,
           console=True )

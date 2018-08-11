@@ -8,7 +8,7 @@ packages = find_packages()
 
 setup(
     name='version_manager',
-    version='1.0.0',
+    version='2.0.14',
     description='version_manager',
     long_description=readme,
     author='Bogdan Mustiata',
@@ -16,7 +16,8 @@ setup(
     license='BSD',
     entry_points={
         "console_scripts": [
-            "version_manager = application:launch"
+            "version-manager = application:launch",
+            "vm = application:launch"
         ]
     },
     install_requires=[],

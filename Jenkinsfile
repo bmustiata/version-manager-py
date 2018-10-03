@@ -23,7 +23,7 @@ stage('Build version-manager') {
                 /src/dist/version-manager --all
             """
 
-            archiveArtifacts artifacts: "/src/dist/version-manager"
+            safeArchive "/src/dist/version-manager"
         }
 
         dockerRm containers: ['version_manager']

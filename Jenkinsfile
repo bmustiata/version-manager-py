@@ -7,35 +7,14 @@ properties([
     ])
 ])
 
-stage('Build version-manager') {
-    node {
-        ansiColor('xterm') {
+germaniumPyExePipeline(
+    binaries: [
+        "Lin 64": [
+            exe: "/src/dist/version-manager",
+            dockerTag: "version_manager",
+            dockerPublish: true,
+            dockerToolContainer: true
+        ]
+    ]
+)
 
-        deleteDir()
-        checkout scm
-
-        docker.build('version_manager').inside {
-            deleteDir()
-            checkout scm
-
-            sh """
-                export PATH="/src/dist:\$PATH"
-                /src/dist/version-manager --all
-            """
-
-            safeArchive "/src/dist/version-manager"
-        }
-
-        dockerRm containers: ['version_manager']
-        dockerRun image: 'version_manager',
-            name: 'version_manager',
-            command: 'ls'
-        }
-    }
-}
-
-stage('Publish docker image') {
-    node {
-        dpush 'version_manager'
-    }
-}

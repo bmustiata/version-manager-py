@@ -5,6 +5,6 @@ version:
     setup.py: version='**VERSION**',
     README.md: '# vm **VERSION$$'
 usage:
-  version: $(vm --help)
+  version: $(version-manager --help)
   files:
     README.md: (Help:\n\n```text\n)(.*?)(\n```)

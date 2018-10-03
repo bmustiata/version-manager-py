@@ -16,8 +16,8 @@ setup(
     license='BSD',
     entry_points={
         "console_scripts": [
-            "version-manager = application:launch",
-            "vm = application:launch"
+            "version-manager = version_manager/mainapp:main",
+            "vm = version_manager/mainapp:main"
         ]
     },
     install_requires=[],

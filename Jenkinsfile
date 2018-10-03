@@ -19,6 +19,7 @@ stage('Build version-manager') {
             checkout scm
 
             sh """
+                export PATH="/src/dist:\$PATH"
                 /src/dist/version-manager --all
             """
 

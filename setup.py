@@ -8,7 +8,7 @@ packages = find_packages()
 
 setup(
     name='vm',
-    version='2.0.15',
+    version='2.0.16',
     description='version_manager',
     long_description=readme,
     author='Bogdan Mustiata',

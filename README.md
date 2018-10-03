@@ -1,4 +1,4 @@
-# vm 2.0.15
+# vm 2.0.16
 
 Updates versions across multiple files.
 
@@ -27,8 +27,8 @@ germanium:
 Help:
 
 ```text
-usage: vm [-h] [--display NAME] [--all] [--set NAME=VAL [NAME=VAL ...]]
-          [--load FILE] [-t]
+usage: version-manager [-h] [--display NAME] [--all]
+                       [--set NAME=VAL [NAME=VAL ...]] [--load FILE] [-t]
 
 Versions processor
 

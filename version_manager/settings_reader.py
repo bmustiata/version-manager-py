@@ -54,4 +54,5 @@ def report_missing_settings_file(settings_file: str) -> None:
     print(red("%s configuration file is missing." % settings_file))
 
 
-from .parse_version import parse_version
+# This import is intentionally at the end, because it's a cyclic import
+from .parse_version import parse_version  # NOQA

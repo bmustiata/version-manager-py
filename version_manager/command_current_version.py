@@ -2,7 +2,7 @@ import subprocess
 import re
 from termcolor_util import eprint, red
 
-DIVERGED_FROM_RELEASE=re.compile(r'.+?-\d+-\S+$')
+DIVERGED_FROM_RELEASE = re.compile(r'.+?-\d+-\S+$')
 
 
 def print_current_tag_version() -> None:

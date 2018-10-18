@@ -13,7 +13,8 @@ germaniumPyExePipeline(
             exe: "/src/dist/version-manager",
             dockerTag: "version_manager",
             dockerPublish: true,
-            dockerToolContainer: true
+            dockerToolContainer: true,
+            publishPypi: "sdist"
         ]
     ]
 )

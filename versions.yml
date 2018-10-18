@@ -11,5 +11,5 @@ usage:
 requirements:
   version: $(bin/requires_versions.py)
   files:
-    setup.py: install_requires=[**VERSION**],
+    setup.py: (install_requires=\[)(.*?)(\],)
 

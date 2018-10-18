@@ -20,7 +20,11 @@ setup(
             "vm=version_manager.mainapp:main"
         ]
     },
-    install_requires=[],
+    install_requires=[
+        "colorama==0.3.7",
+        "termcolor==1.1.0",
+        "termcolor_util==1.0.1",
+        "PyYAML==3.12"],
     packages=packages,
     package_data={
         '': ['*.txt', '*.rst']

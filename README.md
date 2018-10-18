@@ -51,8 +51,15 @@ The version value will be expanded using the shell if it contains a '$' or a
 
 ```json
 "description": {
-  "version": "Build at $(date) on $(uname -n)"
+  "version": "Built at $(date) on $(uname -n)"
 }
+```
+
+or YAML:
+
+```yaml
+description:
+  version: Built at $(date) on $(uname -n)
 ```
 
 Versions can also refer to other version files, and extract properties from
@@ -64,6 +71,11 @@ there, using the `parent:` notation in the version:
 }
 ```
 
+```yaml
+germaniumdrivers:
+  version: "parent:../germanium/@germaniumdrivers"
+```
+
 The path will point to the `versions.json/yml` file, or to the folder that
 contains the `versions.json/yml` file, and after that fill will be read and
 interpreted the `germaniumdrivers` version will be used.
@@ -72,7 +84,7 @@ Versions can be also manually overriden from the command line, using the
 `--set` or `-s` flag, for example:
 
 ```sh
-vm -s germanium=2.0.8
+version-manager -s germanium=2.0.8
 ```
 
 This will ignore the value specified in the versions.yml file, and use the
@@ -80,7 +92,7 @@ specified one.
 
 ## File Matchers
 
-There are currently only four file matchers:
+There are currently only three file matchers:
 
 ### RegExp File Matcher
 
@@ -100,11 +112,26 @@ So having a matcher such as:
 }
 ```
 
-is equivalent with:
+or yaml
 
 ```yaml
 files:
-    README: "(This installs version )(.+?)( of the product\\.)"
+  README: This installs version **VERSION** of the product.
+```
+
+is equivalent with:
+
+```json
+"files": {
+    "README": "(This installs version )(.+?)( of the product\\.)"
+}
+```
+
+or yaml
+
+```yaml
+files:
+  README: (This installs version )(.+?)( of the product\\.)
 ```
 
 If the `**`s are replaced with `^^` at the beginning, or `$$` at the end, they
@@ -124,6 +151,17 @@ This will construct a RegExp that will match:
 
 In order to specify the matcher, just use:
 
+```json
+{"germanium": {
+  "version": "2.0.0",
+  "files": {
+    "pom.xml": "maven:com.germaniumhq:germanium"
+  }
+}
+```
+
+or yaml
+
 ```yaml
 germanium:
   version: 2.0.0
@@ -138,20 +176,33 @@ in too many places, constraints can be added to limit, or extend
 the matches.
 
 Matcher constraints are always active, and in case no constraint
-is specified then the maximum replacement count is set to 1. 
+is specified then the maximum replacement count is set to 1.
 
 ### Match Count
 
 ```json
-"product" : {
-  "version": "1.0",
-  "files": {
-    "README.md": {
-      "match": "^(= Germanium v)(.*?)$",
-      "count": 1
+{
+  "product" : {
+    "version": "1.0",
+    "files": {
+      "README.md": {
+        "match": "^(= Germanium v)(.*?)$",
+        "count": 2
+      }
     }
   }
 }
+```
+
+or yaml
+
+```yaml
+product:
+  version: "1.0"
+  files:
+    README.md:
+      match: ^(= Germanium v)(.*?)$
+      count: 2
 ```
 
 The count can be also `0` for no matches, or negative to indicate
@@ -163,13 +214,15 @@ In a single file, we can have multiple matchers as well, for
 example:
 
 ```json
-"product" : {
-  "version": "1.0",
-  "files": {
-    "README.md": [
-      "^(= Germanium v)(.*?)$",
-      "(Germanium )(\\d+\\.\\d+)()"
-    ]
+{
+  "product" : {
+    "version": "1.0",
+    "files": {
+      "README.md": [
+        "^(= Germanium v)(.*?)$",
+        "(Germanium )(\\d+\\.\\d+)()"
+      ]
+    }
   }
 }
 ```
@@ -181,15 +234,17 @@ Of course, constraints can be applied for both the full set of
 matchers:
 
 ```json
-"product" : {
-  "version": "1.0",
-  "files": {
-    "README.md": {
-      "match": [
-        "^(= Germanium v)(.*?)$",
-        "(Germanium )(\\d+\\.\\d+)()"
-      ],
-      "count": 3
+{
+  "product" : {
+    "version": "1.0",
+    "files": {
+      "README.md": {
+        "match": [
+          "^(= Germanium v)(.*?)$",
+          "(Germanium )(\\d+\\.\\d+)()"
+        ],
+        "count": 3
+      }
     }
   }
 }
@@ -198,18 +253,20 @@ matchers:
 or even individual expressions: 
  
 ```json
-"product" : {
-  "version": "1.0",
-  "files": {
-    "README.md": {
-      "match": [
-        "^(= Germanium v)(.*?)$",
-        {
-          "match": "(Germanium )(\\d+\\.\\d+)()",
-          "count": 2
-        }
-      ],
-      "count": 3
+{
+  "product" : {
+    "version": "1.0",
+    "files": {
+      "README.md": {
+        "match": [
+          "^(= Germanium v)(.*?)$",
+          {
+            "match": "(Germanium )(\\d+\\.\\d+)()",
+            "count": 2
+          }
+        ],
+        "count": 3
+      }
     }
   }
 }

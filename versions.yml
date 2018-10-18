@@ -8,3 +8,8 @@ usage:
   version: $(version-manager --help)
   files:
     README.md: (Help:\n\n```text\n)(.*?)(\n```)
+requirements:
+  version: $(bin/requires_versions.py)
+  files:
+    setup.py: install_requires=[**VERSION**],
+

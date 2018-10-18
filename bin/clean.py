@@ -40,4 +40,3 @@ for f, folders, files in os.walk('.'):
     for file_name in files:
         if extension(file_name) in ['.orig', '.pyc']:
             remove_single_file(os.path.join(f, file_name))
-

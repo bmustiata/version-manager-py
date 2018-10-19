@@ -11,13 +11,12 @@ def print_current_tag_version() -> None:
         current_release_version = subprocess.check_output([
             "git", "describe"
         ]).decode('utf-8').strip()
+
+        if not DIVERGED_FROM_RELEASE.match(current_release_version):
+            print(current_release_version)
+            return  # => we're on a tagged release
     except Exception as e:
         eprint(red(str(e)))
-        current_release_version = "1.0.0"
-
-    if not DIVERGED_FROM_RELEASE.match(current_release_version):
-        print(current_release_version)
-        return  # => we're on a tagged release
 
     current_branch_name: str = subprocess.check_output([
         "git", "rev-parse", "--abbrev-ref", "HEAD"

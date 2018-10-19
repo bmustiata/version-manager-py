@@ -8,7 +8,7 @@ packages = find_packages()
 
 setup(
     name='vm',
-    version='bugfix_2-version-manage-itself',
+    version='2.0.17',
     description='version_manager',
     long_description=readme,
     author='Bogdan Mustiata',

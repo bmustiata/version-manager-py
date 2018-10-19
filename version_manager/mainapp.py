@@ -53,12 +53,12 @@ def main() -> None:
                         help='Get the current name to use in general tags.')
     parser.add_argument('--version',
                         action='store_true',
-                        help='Show the currently installed program version (2.0.17)')
+                        help='Show the currently installed program version (2.0.18)')
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.version:
-        print(cyan("version-manager: 2.0.17"))
+        print(cyan("version-manager: 2.0.18"))
         sys.exit(0)
 
     if argv.tag_name:

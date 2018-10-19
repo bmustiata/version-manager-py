@@ -1,4 +1,4 @@
-# vm 2.0.17
+# vm 2.0.18
 
 Updates versions across multiple files.
 
@@ -43,8 +43,7 @@ optional arguments:
   --load FILE, -l FILE  Override versions from the given yml file.
   -t, --tag-name, --tag
                         Get the current name to use in general tags.
-  --version             Show the currently installed program version
-                        (bugfix_2-version-manage-itself)
+  --version             Show the currently installed program version (2.0.17)
 ```
 
 ## Specifying Versions

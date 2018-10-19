@@ -7,6 +7,7 @@ version:
     version_manager/mainapp.py:
       - help='Show the currently installed program version (**VERSION**)')
       - 'print(cyan("version-manager: **VERSION**"))'
+    docker-autobuild/Dockerfile: RUN pip install vm==**VERSION$$
 usage:
   version: $(version-manager --help)
   files:

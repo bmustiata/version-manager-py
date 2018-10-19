@@ -24,6 +24,7 @@ class ProgramArguments(object):
     display: Optional[List[str]]
     tag_name: Optional[str]
     load: Optional[str]
+    version: bool
     set: Optional[List[str]]
     all: bool
 

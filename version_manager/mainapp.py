@@ -57,6 +57,10 @@ def main() -> None:
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
+    if argv.version:
+        print(cyan("version-manager: bugfix_2-version-manage-itself"))
+        sys.exit(0)
+
     if argv.tag_name:
         print_current_tag_version()
         sys.exit(0)
@@ -65,10 +69,6 @@ def main() -> None:
     override_parameters = get_parameters_from_file(argv.load)
     override_parameters = get_parameter_values(override_parameters, argv.set)
     versions_to_process = read_settings_file(default_settings_file, override_parameters)
-
-    if argv.version:
-        print(cyan("version-manager: bugfix_2-version-manage-itself"))
-        sys.exit(0)
 
     # Display a single tracked version
     if argv.display:

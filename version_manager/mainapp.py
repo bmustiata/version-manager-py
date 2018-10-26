@@ -49,8 +49,10 @@ def main() -> None:
                         metavar="FILE",
                         help='Override versions from the given yml file.')
     parser.add_argument('-t', '--tag-name', '--tag',
-                        action='store_true',
-                        help='Get the current name to use in general tags.')
+                        metavar="BRANCHNAME",
+                        help="Get the current name to use in general tags. You "
+                             "need to pass the current branch name, and if the "
+                             "branch name can't be detected this name will be used.")
     parser.add_argument('--version',
                         action='store_true',
                         help='Show the currently installed program version (2.0.18)')
@@ -62,7 +64,7 @@ def main() -> None:
         sys.exit(0)
 
     if argv.tag_name:
-        print_current_tag_version()
+        print_current_tag_version(argv.tag_name)
         sys.exit(0)
 
     default_settings_file = path.realpath(path.join(os.getcwd(), 'versions.json'))

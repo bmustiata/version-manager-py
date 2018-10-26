@@ -5,7 +5,7 @@ from termcolor_util import eprint, red
 DIVERGED_FROM_RELEASE = re.compile(r'.+?-\d+-\S+$')
 
 
-def print_current_tag_version() -> None:
+def print_current_tag_version(default_branch_name: str) -> None:
     current_release_version: str
     try:
         current_release_version = subprocess.check_output([
@@ -22,7 +22,7 @@ def print_current_tag_version() -> None:
         "git", "rev-parse", "--abbrev-ref", "HEAD"
     ]).decode('utf-8').strip()
 
-    tag_name = f"{current_branch_name}"
+    tag_name = current_branch_name if current_branch_name != "HEAD" else default_branch_name
     print(escape_tag_name(tag_name))
 
 

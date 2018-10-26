@@ -23,7 +23,7 @@ def print_current_tag_version(default_branch_name: str) -> None:
     ]).decode('utf-8').strip()
 
     tag_name = current_branch_name if current_branch_name != "HEAD" else default_branch_name
-    print(escape_tag_name(tag_name))
+    print(f"0.1.{escape_tag_name(tag_name)}")
 
 
 def escape_tag_name(name: str) -> str:

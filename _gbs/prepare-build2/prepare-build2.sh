@@ -1,1 +1,1 @@
-pip install -r ./_gbs/build/prepare-build2/requirements.txt
+pip install -r ./_gbs/prepare-build2/requirements.txt

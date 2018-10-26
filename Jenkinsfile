@@ -1,4 +1,5 @@
 germaniumPyExePipeline(
+    github: "git@github.com:bmustiata/version-manager-py.git",
     binaries: [
         "Lin 64": [
             exe: "/src/dist/version-manager",

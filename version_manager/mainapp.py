@@ -55,12 +55,12 @@ def main() -> None:
                              "$BRANCH_NAME environment variable will be used.")
     parser.add_argument('--version',
                         action='store_true',
-                        help='Show the currently installed program version (2.0.18)')
+                        help='Show the currently installed program version (master)')
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.version:
-        print(cyan("version-manager: 2.0.18"))
+        print(cyan("version-manager: master"))
         sys.exit(0)
 
     if argv.tag_name:

@@ -1,4 +1,4 @@
-vm 2.0.12
+vm master
 =========
 
 Updates versions across multiple files.
@@ -31,8 +31,9 @@ Help:
 
 .. code:: text
 
-    usage: vm [-h] [--display NAME] [--all] [--set NAME=VAL [NAME=VAL ...]]
-              [--load FILE] [-t]
+    usage: version-manager [-h] [--display NAME] [--all]
+                           [--set NAME=VAL [NAME=VAL ...]] [--load FILE] [-t]
+                           [--version]
 
     Versions processor
 
@@ -45,7 +46,10 @@ Help:
                             Set values overriding what's in the yml files.
       --load FILE, -l FILE  Override versions from the given yml file.
       -t, --tag-name, --tag
-                            Get the current name to use in general tags.
+                            Get the current name to use in general tags. If the
+                            branch name can't be detected from the git repo, the
+                            $BRANCH_NAME environment variable will be used.
+      --version             Show the currently installed program version (master)
 
 Specifying Versions
 -------------------
@@ -56,8 +60,15 @@ or a '\`', so you can have a version such as:
 .. code:: json
 
     "description": {
-      "version": "Build at $(date) on $(uname -n)"
+      "version": "Built at $(date) on $(uname -n)"
     }
+
+or YAML:
+
+.. code:: yaml
+
+    description:
+      version: Built at $(date) on $(uname -n)
 
 Versions can also refer to other version files, and extract properties
 from there, using the ``parent:`` notation in the version:
@@ -68,6 +79,11 @@ from there, using the ``parent:`` notation in the version:
       "version": "parent:../germanium/@germaniumdrivers"
     }
 
+.. code:: yaml
+
+    germaniumdrivers:
+      version: "parent:../germanium/@germaniumdrivers"
+
 The path will point to the ``versions.json/yml`` file, or to the folder
 that contains the ``versions.json/yml`` file, and after that fill will
 be read and interpreted the ``germaniumdrivers`` version will be used.
@@ -77,7 +93,7 @@ Versions can be also manually overriden from the command line, using the
 
 .. code:: sh
 
-    vm -s germanium=2.0.8
+    version-manager -s germanium=2.0.8
 
 This will ignore the value specified in the versions.yml file, and use
 the specified one.
@@ -85,7 +101,7 @@ the specified one.
 File Matchers
 -------------
 
-There are currently only four file matchers:
+There are currently only three file matchers:
 
 RegExp File Matcher
 ~~~~~~~~~~~~~~~~~~~
@@ -107,12 +123,27 @@ So having a matcher such as:
         "README": "This installs version **VERSION** of the product."
     }
 
-is equivalent with:
+or yaml
 
 .. code:: yaml
 
     files:
-        README: "(This installs version )(.+?)( of the product\\.)"
+      README: This installs version **VERSION** of the product.
+
+is equivalent with:
+
+.. code:: json
+
+    "files": {
+        "README": "(This installs version )(.+?)( of the product\\.)"
+    }
+
+or yaml
+
+.. code:: yaml
+
+    files:
+      README: (This installs version )(.+?)( of the product\\.)
 
 If the ``**``\ s are replaced with ``^^`` at the beginning, or ``$$`` at
 the end, they will act as RegExp anchors, equivalent to ``^`` and ``$``.
@@ -131,6 +162,17 @@ This will construct a RegExp that will match:
     `<version>)(.*?)(</version>)`;
 
 In order to specify the matcher, just use:
+
+.. code:: json
+
+    {"germanium": {
+      "version": "2.0.0",
+      "files": {
+        "pom.xml": "maven:com.germaniumhq:germanium"
+      }
+    }
+
+or yaml
 
 .. code:: yaml
 
@@ -153,15 +195,28 @@ Match Count
 
 .. code:: json
 
-    "product" : {
-      "version": "1.0",
-      "files": {
-        "README.md": {
-          "match": "^(= Germanium v)(.*?)$",
-          "count": 1
+    {
+      "product" : {
+        "version": "1.0",
+        "files": {
+          "README.md": {
+            "match": "^(= Germanium v)(.*?)$",
+            "count": 2
+          }
         }
       }
     }
+
+or yaml
+
+.. code:: yaml
+
+    product:
+      version: "1.0"
+      files:
+        README.md:
+          match: ^(= Germanium v)(.*?)$
+          count: 2
 
 The count can be also ``0`` for no matches, or negative to indicate any
 number of matches is allowed.
@@ -173,13 +228,15 @@ In a single file, we can have multiple matchers as well, for example:
 
 .. code:: json
 
-    "product" : {
-      "version": "1.0",
-      "files": {
-        "README.md": [
-          "^(= Germanium v)(.*?)$",
-          "(Germanium )(\\d+\\.\\d+)()"
-        ]
+    {
+      "product" : {
+        "version": "1.0",
+        "files": {
+          "README.md": [
+            "^(= Germanium v)(.*?)$",
+            "(Germanium )(\\d+\\.\\d+)()"
+          ]
+        }
       }
     }
 
@@ -190,15 +247,17 @@ Of course, constraints can be applied for both the full set of matchers:
 
 .. code:: json
 
-    "product" : {
-      "version": "1.0",
-      "files": {
-        "README.md": {
-          "match": [
-            "^(= Germanium v)(.*?)$",
-            "(Germanium )(\\d+\\.\\d+)()"
-          ],
-          "count": 3
+    {
+      "product" : {
+        "version": "1.0",
+        "files": {
+          "README.md": {
+            "match": [
+              "^(= Germanium v)(.*?)$",
+              "(Germanium )(\\d+\\.\\d+)()"
+            ],
+            "count": 3
+          }
         }
       }
     }
@@ -207,18 +266,20 @@ or even individual expressions:
 
 .. code:: json
 
-    "product" : {
-      "version": "1.0",
-      "files": {
-        "README.md": {
-          "match": [
-            "^(= Germanium v)(.*?)$",
-            {
-              "match": "(Germanium )(\\d+\\.\\d+)()",
-              "count": 2
-            }
-          ],
-          "count": 3
+    {
+      "product" : {
+        "version": "1.0",
+        "files": {
+          "README.md": {
+            "match": [
+              "^(= Germanium v)(.*?)$",
+              {
+                "match": "(Germanium )(\\d+\\.\\d+)()",
+                "count": 2
+              }
+            ],
+            "count": 3
+          }
         }
       }
     }

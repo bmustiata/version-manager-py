@@ -1,4 +1,4 @@
-# vm 2.0.18
+# vm master
 
 Updates versions across multiple files.
 
@@ -42,8 +42,10 @@ optional arguments:
                         Set values overriding what's in the yml files.
   --load FILE, -l FILE  Override versions from the given yml file.
   -t, --tag-name, --tag
-                        Get the current name to use in general tags.
-  --version             Show the currently installed program version (2.0.17)
+                        Get the current name to use in general tags. If the
+                        branch name can't be detected from the git repo, the
+                        $BRANCH_NAME environment variable will be used.
+  --version             Show the currently installed program version (master)
 ```
 
 ## Specifying Versions

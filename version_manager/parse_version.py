@@ -9,8 +9,8 @@ from version_manager.util_find import find
 from version_manager.settings_reader import read_settings_file
 
 from version_manager.command_current_version import \
-        is_feature_branch, \
-        get_current_tag_version
+    is_feature_branch, \
+    get_current_tag_version
 
 
 setting_files: Dict[str, TrackedVersionSet] = dict()

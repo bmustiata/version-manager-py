@@ -13,8 +13,6 @@ def print_current_tag_version() -> None:
 
 
 def get_current_tag_version() -> str:
-    current_release_version: str
-
     # if we have BRANCH_NAME in the environment, we use that one,
     # since it's already found for us.
     if 'BRANCH_NAME' in os.environ:
@@ -23,7 +21,12 @@ def get_current_tag_version() -> str:
         if not FEATURE_BRANCH.match(env_branch_name):
             return env_branch_name
 
-        return f"0.1.{escape_tag_name(env_branch_name)}"
+        if "BUILD_ID" in os.environ:
+            build_number = "." + os.environ.get("BUILD_ID")
+        else:
+            build_number = ""
+
+        return f"0.1.{escape_tag_name(env_branch_name)}{build_number}"
 
     # We try to find if we have an annotated git tag
     try:

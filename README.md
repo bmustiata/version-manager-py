@@ -94,6 +94,32 @@ version-manager -s germanium=2.0.8
 This will ignore the value specified in the versions.yml file, and use the
 specified one.
 
+## Feature Branches
+
+The version can also be prefixed by `upstream:`. In that case if the currently
+checked out branch name contains `-x-`, or the exported BRANCH_NAME environment
+variable has that name, the version returned by `version-manager --tag` will be
+used instead.
+
+```yaml
+germaniumdrivers:
+  version: "upstream:1.1.0"
+```
+
+As long as the branch is not marked to contain cross feature branches
+dependencies with `-x-` it will return `1.1.0`.
+
+This also works for parent branches, so you can have:
+
+```yaml
+germaniumdrivers:
+  version: "parent:upstream:../germanium/@germaniumdrivers"
+```
+
+If the branch name is for example: `feature/UI-123-x-test-new-drivers` the
+`parent:` value will not be read, and `0.1-feature_UI-123-x-test-new-drivers`
+will be returned as the value.
+
 ## File Matchers
 
 There are currently only three file matchers:

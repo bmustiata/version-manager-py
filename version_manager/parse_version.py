@@ -8,14 +8,21 @@ from version_manager.matchers.pattern import TrackedVersionSet
 from version_manager.util_find import find
 from version_manager.settings_reader import read_settings_file
 
+from version_manager.command_current_version import \
+        is_feature_branch, \
+        get_current_tag_version
+
 
 setting_files: Dict[str, TrackedVersionSet] = dict()
+
+PARENT_RE = re.compile(r'^parent:(.+)@(.+?)$')
+UPSTREAM_RE = re.compile(r'^upstream:(.+)$')
 
 
 def parse_parent_path(version: str,
                       cwd: str,
                       overriden_settings: Dict[str, str]) -> str:
-    items = re.compile(r'^parent:(.+)@(.+?)$').match(version)
+    items = PARENT_RE.match(version)
 
     if not items:
         raise Exception("The version must be in the 'parent:path@propertyname' "
@@ -23,6 +30,15 @@ def parse_parent_path(version: str,
 
     parent_versions_file_path = items.group(1)
     property_name = items.group(2)
+
+    upstream_items = UPSTREAM_RE.match(items.group(1))
+
+    if upstream_items:
+        if is_feature_branch():
+            return get_current_tag_version()
+
+        # if we didn't returned we need to romeve the upstream: part
+        parent_versions_file_path = upstream_items.group(1)
 
     full_path = path.realpath(path.join(cwd, parent_versions_file_path))
 

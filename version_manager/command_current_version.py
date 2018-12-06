@@ -8,6 +8,11 @@ FEATURE_BRANCH = re.compile(r'/')
 
 
 def print_current_tag_version() -> None:
+    version_name = get_current_tag_version()
+    print(version_name)
+
+
+def get_current_tag_version() -> str:
     current_release_version: str
 
     # if we have BRANCH_NAME in the environment, we use that one,
@@ -16,11 +21,9 @@ def print_current_tag_version() -> None:
         env_branch_name = os.environ['BRANCH_NAME']
 
         if not FEATURE_BRANCH.match(env_branch_name):
-            print(env_branch_name)
-            return
+            return env_branch_name
 
-        print(f"0.1.{escape_tag_name(env_branch_name)}")
-        return
+        return f"0.1.{escape_tag_name(env_branch_name)}"
 
     # We try to find if we have an annotated git tag
     try:
@@ -29,8 +32,7 @@ def print_current_tag_version() -> None:
         ]).decode('utf-8').strip()
 
         if not DIVERGED_FROM_RELEASE.match(current_release_version):
-            print(current_release_version)
-            return  # => we're on a tagged release
+            return current_release_version  # => we're on a tagged release
     except Exception as e:
         eprint(red(str(e)))
 
@@ -39,7 +41,11 @@ def print_current_tag_version() -> None:
         "git", "rev-parse", "--abbrev-ref", "HEAD"
     ]).decode('utf-8').strip()
 
-    print(f"0.1.{escape_tag_name(current_branch_name)}")
+    return f"0.1.{escape_tag_name(current_branch_name)}"
+
+
+def is_feature_branch():
+    return '-x-' in get_current_tag_version()
 
 
 def escape_tag_name(name: str) -> str:

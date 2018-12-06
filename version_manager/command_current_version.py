@@ -22,7 +22,7 @@ def get_current_tag_version() -> str:
             return env_branch_name
 
         if "BUILD_ID" in os.environ:
-            build_number = "." + os.environ.get("BUILD_ID")
+            build_number = "." + os.environ["BUILD_ID"]
         else:
             build_number = ""
 

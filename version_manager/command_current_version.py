@@ -3,8 +3,7 @@ import re
 import os
 from termcolor_util import eprint, red
 
-DIVERGED_FROM_RELEASE = re.compile(r'.+?-\d+-\S+$')
-FEATURE_BRANCH = re.compile(r'/')
+DIVERGED_FROM_RELEASE = re.compile(r'^.+?-\d+-\S+$')
 
 
 def print_current_tag_version() -> None:
@@ -18,7 +17,7 @@ def get_current_tag_version() -> str:
     if 'BRANCH_NAME' in os.environ:
         env_branch_name = os.environ['BRANCH_NAME']
 
-        if not FEATURE_BRANCH.match(env_branch_name):
+        if '/' not in env_branch_name:
             return env_branch_name
 
         if "BUILD_ID" in os.environ:

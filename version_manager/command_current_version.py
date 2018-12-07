@@ -20,12 +20,7 @@ def get_current_tag_version() -> str:
         if '/' not in env_branch_name:
             return env_branch_name
 
-        if "BUILD_ID" in os.environ:
-            build_number = "." + os.environ["BUILD_ID"]
-        else:
-            build_number = ""
-
-        return f"0.1.{escape_tag_name(env_branch_name)}{build_number}"
+        return f"0.1.{escape_tag_name(env_branch_name)}"
 
     # We try to find if we have an annotated git tag
     try:

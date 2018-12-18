@@ -19,6 +19,11 @@ PARENT_RE = re.compile(r'^parent:(.+)@(.+?)$')
 UPSTREAM_RE = re.compile(r'^upstream:(.+)$')
 
 
+class ParentNotFound(Exception):
+    def __init__(self, msg: str) -> None:
+        super().__init__(msg)
+
+
 def parse_parent_path(version: str,
                       cwd: str,
                       overriden_settings: Dict[str, str]) -> str:
@@ -43,7 +48,7 @@ def parse_parent_path(version: str,
     full_path = path.realpath(path.join(cwd, parent_versions_file_path))
 
     if not path.exists(full_path):
-        raise Exception('Unable to find referenced file: %s' % full_path)
+        raise ParentNotFound('Unable to find referenced file: %s' % full_path)
 
     if path.isdir(full_path):
         full_path = path.join(full_path, 'versions.json')

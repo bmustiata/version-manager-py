@@ -29,7 +29,7 @@ Help:
 ```text
 usage: version-manager [-h] [--display NAME] [--all]
                        [--set NAME=VAL [NAME=VAL ...]] [--load FILE] [-t]
-                       [--version]
+                       [--ignore-missing-parents] [--version]
 
 Versions processor
 
@@ -45,7 +45,11 @@ optional arguments:
                         Get the current name to use in general tags. If the
                         branch name can't be detected from the git repo, the
                         $BRANCH_NAME environment variable will be used.
-  --version             Show the currently installed program version (master)
+  --ignore-missing-parents
+                        Ignore missing parents, and simply don't patch the
+                        values. Upstream values are still being patched if
+                        existing.
+  --version             Show the currently installed program version (2.4.2)
 ```
 
 ## Specifying Versions

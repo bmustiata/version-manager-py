@@ -25,6 +25,7 @@ class ProgramArguments(object):
     tag_name: bool
     load: Optional[str]
     version: bool
+    ignore_missing_parents: bool
     set: Optional[List[str]]
     all: bool
 
@@ -53,6 +54,10 @@ def main() -> None:
                         help="Get the current name to use in general tags. If the "
                              "branch name can't be detected from the git repo, the "
                              "$BRANCH_NAME environment variable will be used.")
+    parser.add_argument('--ignore-missing-parents',
+                        action='store_true',
+                        help="Ignore missing parents, and simply don't patch the "
+                             "values. Upstream values are still being patched if existing.")
     parser.add_argument('--version',
                         action='store_true',
                         help='Show the currently installed program version (master)')
@@ -70,7 +75,9 @@ def main() -> None:
     default_settings_file = path.realpath(path.join(os.getcwd(), 'versions.json'))
     override_parameters = get_parameters_from_file(argv.load)
     override_parameters = get_parameter_values(override_parameters, argv.set)
-    versions_to_process = read_settings_file(default_settings_file, override_parameters)
+    versions_to_process = read_settings_file(default_settings_file,
+                                             override_parameters,
+                                             argv.ignore_missing_parents)
 
     # Display a single tracked version
     if argv.display:

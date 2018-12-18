@@ -9,7 +9,8 @@ from .matchers.pattern import TrackedVersionSet, TrackedVersion
 
 
 def read_settings_file(settings_file: str,
-                       override_settings: Dict[str, str]) -> TrackedVersionSet:
+                       override_settings: Dict[str, str],
+                       ignore_missing_parents: bool) -> TrackedVersionSet:
     """
     Read the configured versions from the files. If a version is defined in the
     override_settings, then that value is going to be used, instead of what's
@@ -42,10 +43,15 @@ def read_settings_file(settings_file: str,
                 tracked_file = matcher_builder(tracked_version,
                                                tracked_files[file_name])
                 tracked_version.files[file_name] = tracked_file
+        except ParentNotFound as e:
+            if ignore_missing_parents:
+                continue
 
-            result.append(tracked_version)
+            raise Exception("Unable to find parent", e)
         except Exception as e:
             raise Exception("Unable to read value: %s" % name, e)
+        else:
+            result.append(tracked_version)
 
     return result
 
@@ -55,4 +61,4 @@ def report_missing_settings_file(settings_file: str) -> None:
 
 
 # This import is intentionally at the end, because it's a cyclic import
-from .parse_version import parse_version  # NOQA
+from .parse_version import parse_version, ParentNotFound  # NOQA

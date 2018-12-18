@@ -26,7 +26,8 @@ class ParentNotFound(Exception):
 
 def parse_parent_path(version: str,
                       cwd: str,
-                      overriden_settings: Dict[str, str]) -> str:
+                      overriden_settings: Dict[str, str],
+                      ignore_missing_parents: bool) -> str:
     items = PARENT_RE.match(version)
 
     if not items:
@@ -54,7 +55,9 @@ def parse_parent_path(version: str,
         full_path = path.join(full_path, 'versions.json')
 
     if full_path not in setting_files:
-        setting_files[full_path] = read_settings_file(full_path, overriden_settings)
+        setting_files[full_path] = read_settings_file(full_path,
+                                                      overriden_settings,
+                                                      ignore_missing_parents)
 
     property_value = find(lambda it: it.name == property_name,
                           setting_files[full_path])
@@ -74,7 +77,8 @@ def parse_parent_path(version: str,
 
 def parse_version_with_path(version: str,
                             cwd: str,
-                            overriden_settings: Dict[str, str]) -> str:
+                            overriden_settings: Dict[str, str],
+                            ignore_missing_parents: bool) -> str:
     old_path = os.getcwd()
 
     if not isinstance(version, str):
@@ -87,7 +91,10 @@ def parse_version_with_path(version: str,
         os.chdir(cwd)
 
         if version.startswith('parent:'):
-            return parse_parent_path(version, cwd, overriden_settings)
+            return parse_parent_path(version,
+                                     cwd,
+                                     overriden_settings,
+                                     ignore_missing_parents)
 
         if '`' not in version and '$' not in version:
             return version
@@ -102,8 +109,12 @@ def parse_version_with_path(version: str,
 
 
 def parse_version(version: str,
-                  overriden_settings: Dict[str, str]) -> str:
-    return parse_version_with_path(version, os.getcwd(), overriden_settings)
+                  overriden_settings: Dict[str, str],
+                  ignore_missing_parents: bool) -> str:
+    return parse_version_with_path(version,
+                                   os.getcwd(),
+                                   overriden_settings,
+                                   ignore_missing_parents)
 
 
 def extract_command(version: str) -> str:

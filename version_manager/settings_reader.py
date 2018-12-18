@@ -35,7 +35,9 @@ def read_settings_file(settings_file: str,
             tracked_version: TrackedVersion = TrackedVersion(name)
             tracked_version.version = override_settings[name] if \
                 name in override_settings else \
-                parse_version(tracked_entry['version'], override_settings)
+                parse_version(tracked_entry['version'],
+                              override_settings,
+                              ignore_missing_parents)
 
             tracked_files = tracked_entry['files'] if 'files' in tracked_entry else {}
 

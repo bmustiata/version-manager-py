@@ -77,9 +77,7 @@ def main() -> None:
         "values. Upstream values are still being patched if existing.",
     )
     parser.add_argument(
-        "--version",
-        action="store_true",
-        help="Show the program version (0.1.master)",
+        "--version", action="store_true", help="Show the program version (0.1.master)",
     )
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))

@@ -24,7 +24,8 @@ setup(
         "colorama >=0.3.7, <0.4",
         "termcolor >=1.1.0, <1.2",
         "termcolor_util >=1.0.1, <1.1",
-        "PyYAML >=3.12, <3.13"],
+        "PyYAML >=3.12, <3.13",
+    ],
     packages=packages,
     package_data={"": ["*.txt", "*.rst"]},
 )

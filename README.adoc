@@ -1,4 +1,4 @@
-= vm master
+= vm 0.1.master
 
 Updates versions across multiple files.
 
@@ -52,7 +52,7 @@ optional arguments:
                         Ignore missing parents, and simply don't patch the
                         values. Upstream values are still being patched if
                         existing.
-  --version             Show the currently installed program version (2.5.1)
+  --version             Show the currently installed program version (0.1.master)
 -----------------------------------------------------------------------------
 
 == Specifying Versions

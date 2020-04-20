@@ -79,13 +79,13 @@ def main() -> None:
     parser.add_argument(
         "--version",
         action="store_true",
-        help="Show the currently installed program version (master)",
+        help="Show the currently installed program version (0.1.master)",
     )
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.version:
-        print(cyan("version-manager: master"))
+        print(cyan("version-manager: 0.1.master"))
         sys.exit(0)
 
     if argv.tag_name:

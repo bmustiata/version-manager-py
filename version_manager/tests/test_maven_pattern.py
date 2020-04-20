@@ -43,5 +43,5 @@ class TestMavenPattern(unittest.TestCase):
         self.assertEqual(1, m.match_count)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

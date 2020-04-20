@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 
 
 class Pattern(metaclass=ABCMeta):
-    tracked_version: 'TrackedVersion'
+    tracked_version: "TrackedVersion"
 
     @abstractmethod
     def apply_pattern(self, input: str) -> str:
@@ -25,7 +25,7 @@ class TrackedVersion:
 
     def __init__(self, name: str) -> None:
         self.name = name
-        self.version = ''
+        self.version = ""
         self.files = dict()
 
 

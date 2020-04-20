@@ -5,20 +5,20 @@ from .regex_pattern import RegExPattern
 
 
 class MavenPattern(Pattern):
-    RE = re.compile(r'^maven\:(.*?)\:(.*?)$')
+    RE = re.compile(r"^maven\:(.*?)\:(.*?)$")
 
-    def __init__(self,
-                 tracked_version: TrackedVersion,
-                 expression: str) -> None:
+    def __init__(self, tracked_version: TrackedVersion, expression: str) -> None:
         m = MavenPattern.RE.match(expression)
 
         if not m:
             raise Exception("Unable to parse %s as a maven pattern.", expression)
 
-        regexp_value = "(<groupId>%s</groupId>\\s*"\
-                       "<artifactId>%s</artifactId>\\s*"\
-                       "<version>)(.*?)(</version>)" % \
-                       (re.escape(m.group(1)), re.escape(m.group(2)))
+        regexp_value = (
+            "(<groupId>%s</groupId>\\s*"
+            "<artifactId>%s</artifactId>\\s*"
+            "<version>)(.*?)(</version>)"
+            % (re.escape(m.group(1)), re.escape(m.group(2)))
+        )
 
         self.tracked_version = tracked_version
         self.regex_pattern = RegExPattern(tracked_version, regexp_value)

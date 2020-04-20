@@ -2,10 +2,12 @@ from .pattern import TrackedVersion, Pattern
 
 
 class MatchCounter(Pattern):
-    def __init__(self,
-                 tracked_version: TrackedVersion,
-                 delegate_pattern: Pattern,
-                 expected_count: int) -> None:
+    def __init__(
+        self,
+        tracked_version: TrackedVersion,
+        delegate_pattern: Pattern,
+        expected_count: int,
+    ) -> None:
         self.tracked_version = tracked_version
         self.delegate_pattern = delegate_pattern
         self._expected_count = expected_count

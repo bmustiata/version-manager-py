@@ -1,7 +1,7 @@
 from typing import Callable, Iterable, TypeVar, Union
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 N = Union[T, None]
 
 

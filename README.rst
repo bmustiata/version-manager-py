@@ -1,20 +1,17 @@
-vm master
-=========
-
 Updates versions across multiple files.
 
 Install
--------
+=======
 
 .. code:: sh
 
     pip install vm
 
 Usage
------
+=====
 
 You need a ``versions.json``, or a ``versions.yml`` where you can
-specify for what you're tracking the versions, and what files to be
+specify for what you’re tracking the versions, and what files to be
 updated using glob patterns:
 
 .. code:: yaml
@@ -53,13 +50,13 @@ Help:
                             Ignore missing parents, and simply don't patch the
                             values. Upstream values are still being patched if
                             existing.
-      --version             Show the currently installed program version (2.4.2)
+      --version             Show the currently installed program version (2.5.1)
 
 Specifying Versions
--------------------
+===================
 
 The version value will be expanded using the shell if it contains a '$'
-or a '\`', so you can have a version such as:
+or a '’, so you can have a version such as:
 
 .. code:: json
 
@@ -103,7 +100,7 @@ This will ignore the value specified in the versions.yml file, and use
 the specified one.
 
 Feature Branches
-----------------
+================
 
 The version can also be prefixed by ``upstream:``. In that case if the
 currently checked out branch name contains ``-x-``, or the exported
@@ -130,21 +127,21 @@ the ``parent:`` value will not be read, and
 ``0.1-feature_UI-123-x-test-new-drivers`` will be returned as the value.
 
 File Matchers
--------------
+=============
 
 There are currently only three file matchers:
 
 RegExp File Matcher
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 It is a RegExp that has two or three groups, and it will have the second
 group replaced to the matched version.
 
 **VERSION** File Matcher
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 This will construct a RegExp that will match exactly the given text,
-with the ``**VERSION**`` being the second group.
+with the ``VERSION`` being the second group.
 
 So having a matcher such as:
 
@@ -176,13 +173,14 @@ or yaml
     files:
       README: (This installs version )(.+?)( of the product\\.)
 
-If the ``**``\ s are replaced with ``^^`` at the beginning, or ``$$`` at
-the end, they will act as RegExp anchors, equivalent to ``^`` and ``$``.
-In case in the expression there is content before the ``^^``, or after
-the ``$$``, the content is ignored.
+If the ``**`s are replaced with `^^`` at the beginning, or
+``` at the end, they
+will act as RegExp anchors, equivalent to `^` and `$`. In case in the
+expression there is content before the `^^`, or after the ```, the
+content is ignored.
 
 maven: File Matcher
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 This will construct a RegExp that will match:
 
@@ -213,7 +211,7 @@ or yaml
         pom.xml: maven:com.germaniumhq:germanium
 
 Matcher Constraints
--------------------
+===================
 
 In order to make sure that the expressions are not replacing in too many
 places, constraints can be added to limit, or extend the matches.
@@ -222,7 +220,7 @@ Matcher constraints are always active, and in case no constraint is
 specified then the maximum replacement count is set to 1.
 
 Match Count
-~~~~~~~~~~~
+-----------
 
 .. code:: json
 
@@ -253,7 +251,7 @@ The count can be also ``0`` for no matches, or negative to indicate any
 number of matches is allowed.
 
 Multiple Matchers
------------------
+=================
 
 In a single file, we can have multiple matchers as well, for example:
 
@@ -272,7 +270,7 @@ In a single file, we can have multiple matchers as well, for example:
     }
 
 For each matcher that is added, if there is no match count specified,
-it's assumed that it will only match once in the file.
+it’s assumed that it will only match once in the file.
 
 Of course, constraints can be applied for both the full set of matchers:
 
@@ -316,11 +314,13 @@ or even individual expressions:
     }
 
 Notes
------
+=====
 
-1. Files are actually ``glob`` patterns, so you can match ``**/*.js``
-   for example.
+1. Files are actually ``glob`` patterns, so you can match ``*/.js`` for
+   example.
+
 2. The configuration files can be yml.
+
 3. ``vm`` will output the following error codes: 0 when no files are
    changed, 0 when files are changed successfuly, or a non zero error
    code in case of error.

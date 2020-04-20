@@ -75,6 +75,20 @@ def parse_parent_path(version: str,
     return property_value.version
 
 
+def custom_rstrip(s: str) -> str:
+    """
+    A custom rstrip that only strips the last Enter if it exists,
+    keeping the other whitespace characters. This allows outputing
+    values with whitespace formatting at the end, while handling
+    the most common case of a single echo with an enter.
+
+    """
+    if s and s[-1] == "\n":
+        s = s[0:-1]
+
+    return s
+
+
 def parse_version_with_path(version: str,
                             cwd: str,
                             overriden_settings: Dict[str, str],
@@ -97,13 +111,13 @@ def parse_version_with_path(version: str,
                                      ignore_missing_parents)
 
         if '`' not in version and '$' not in version:
-            return version
+            return custom_rstrip(version)
 
         command = extract_command(version)
         result: str = subprocess.check_output(['/bin/sh', '-c', command])\
                                 .decode('utf-8')
 
-        return result.rstrip()
+        return custom_rstrip(result)
     finally:
         os.chdir(old_path)
 

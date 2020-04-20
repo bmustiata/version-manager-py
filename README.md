@@ -49,7 +49,7 @@ optional arguments:
                         Ignore missing parents, and simply don't patch the
                         values. Upstream values are still being patched if
                         existing.
-  --version             Show the currently installed program version (2.4.2)
+  --version             Show the currently installed program version (2.5.1)
 ```
 
 ## Specifying Versions

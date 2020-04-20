@@ -4,9 +4,9 @@ version:
     setup.py: version="**VERSION**",
     README.adoc:
       - '= vm **VERSION$$'
-      - Show the currently installed program version (**VERSION**)
+      - Show the program version (**VERSION**)
     version_manager/mainapp.py:
-      - help="Show the currently installed program version (**VERSION**)",
+      - help="Show the program version (**VERSION**)",
       - 'print(cyan("version-manager: **VERSION**"))'
 usage:
   version: $(version-manager --help)

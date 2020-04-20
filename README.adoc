@@ -52,7 +52,7 @@ optional arguments:
                         Ignore missing parents, and simply don't patch the
                         values. Upstream values are still being patched if
                         existing.
-  --version             Show the currently installed program version (0.1.master)
+  --version             Show the program version (0.1.master)
 -----------------------------------------------------------------------------
 
 == Specifying Versions

@@ -79,7 +79,7 @@ def main() -> None:
     parser.add_argument(
         "--version",
         action="store_true",
-        help="Show the currently installed program version (0.1.master)",
+        help="Show the program version (0.1.master)",
     )
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))

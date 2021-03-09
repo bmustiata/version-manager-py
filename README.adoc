@@ -1,4 +1,4 @@
-= vm 2021.03.4
+= vm 2021.03.5
 
 Updates versions across multiple files.
 
@@ -52,7 +52,7 @@ optional arguments:
                         Ignore missing parents, and simply don't patch the
                         values. Upstream values are still being patched if
                         existing.
-  --version             Show the program version (2021.03.3)
+  --version             Show the program version (2021.03.4)
 -----------------------------------------------------------------------------
 
 == Specifying Versions

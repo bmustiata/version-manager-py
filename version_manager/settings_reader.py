@@ -1,6 +1,6 @@
 import sys
 from os import path
-from typing import Dict
+from typing import Dict, Optional
 
 import yaml
 from termcolor_util import red
@@ -14,6 +14,7 @@ def read_settings_file(
     override_settings: Dict[str, str],
     ignore_missing_parents: bool,
     cwd: str,
+    display_item: Optional[str] = None,
 ) -> TrackedVersionSet:
     """
     Read the configured versions from the files. If a version is defined in the
@@ -35,6 +36,9 @@ def read_settings_file(
     result = list()
 
     for name, tracked_entry in settings.items():
+        if display_item and name != display_item:
+            continue
+
         try:
             tracked_version: TrackedVersion = TrackedVersion(name)
             tracked_version.version = (

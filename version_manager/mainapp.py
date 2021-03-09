@@ -1,13 +1,11 @@
-from os import path
-import sys
-import os
 import argparse
 import glob
-import colorama
+import os
+import sys
+from os import path
+from typing import Dict, List, Optional, cast
 
-from version_manager.settings_reader import read_settings_file
-from version_manager.options_set import get_parameter_values, get_parameters_from_file
-from version_manager.matchers.pattern import Pattern
+import colorama
 from termcolor_util import red, green, yellow, cyan, eprint
 
 from version_manager.command_current_version import print_current_tag_version
@@ -15,12 +13,13 @@ from version_manager.command_version_list import (
     print_single_tracked_version,
     print_all_tracked_versions,
 )
-
-from typing import Dict, List, Optional, cast
+from version_manager.matchers.pattern import Pattern
+from version_manager.options_set import get_parameter_values, get_parameters_from_file
+from version_manager.settings_reader import read_settings_file
 
 
 class ProgramArguments(object):
-    display: Optional[List[str]]
+    display: List[str]
     tag_name: bool
     load: Optional[str]
     version: bool
@@ -98,6 +97,7 @@ def main() -> None:
         override_parameters,
         argv.ignore_missing_parents,
         cwd=os.path.dirname(default_settings_file),
+        display_item=argv.display[0] if argv.display else None
     )
 
     # Display a single tracked version

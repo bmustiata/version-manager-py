@@ -6,6 +6,7 @@ germanium_py_exe.pipeline(
         "repo": "git@github.com:bmustiata/version-manager-py.git",
         "run_black": False,
         "run_flake8": False,
+        "run_version_manager": False,
         "binaries": {
             "name": "Python 3.7 on Linux x64",
             "platform": "python:3.7",

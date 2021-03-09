@@ -77,13 +77,13 @@ def main() -> None:
         "values. Upstream values are still being patched if existing.",
     )
     parser.add_argument(
-        "--version", action="store_true", help="Show the program version (2021.03.1)",
+        "--version", action="store_true", help="Show the program version (2021.03.4)",
     )
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.version:
-        print(cyan("version-manager: 2021.03.1"))
+        print(cyan("version-manager: 2021.03.4"))
         sys.exit(0)
 
     if argv.tag_name:

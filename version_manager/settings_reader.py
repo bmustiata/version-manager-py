@@ -1,7 +1,8 @@
-from typing import Dict
-import yaml
 import sys
 from os import path
+from typing import Dict
+
+import yaml
 from termcolor_util import red
 
 from .matcher_builder import matcher_builder
@@ -9,7 +10,10 @@ from .matchers.pattern import TrackedVersionSet, TrackedVersion
 
 
 def read_settings_file(
-    settings_file: str, override_settings: Dict[str, str], ignore_missing_parents: bool
+    settings_file: str,
+    override_settings: Dict[str, str],
+    ignore_missing_parents: bool,
+    cwd: str,
 ) -> TrackedVersionSet:
     """
     Read the configured versions from the files. If a version is defined in the
@@ -37,7 +41,10 @@ def read_settings_file(
                 override_settings[name]
                 if name in override_settings
                 else parse_version(
-                    tracked_entry["version"], override_settings, ignore_missing_parents
+                    tracked_entry["version"],
+                    override_settings,
+                    ignore_missing_parents,
+                    cwd=cwd,
                 )
             )
 

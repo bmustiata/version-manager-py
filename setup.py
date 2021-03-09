@@ -8,7 +8,7 @@ packages = find_packages()
 
 setup(
     name="vm",
-    version="0.1.master",
+    version="2021.03.1",
     description="version_manager",
     long_description=readme,
     author="Bogdan Mustiata",
@@ -21,10 +21,9 @@ setup(
         ]
     },
     install_requires=[
-        "colorama >=0.3.7, <0.4",
-        "termcolor >=1.1.0, <1.2",
-        "termcolor_util >=1.0.1, <1.1",
-        "PyYAML >=3.12, <3.13",
+        "colorama >= 0.4.3",
+        "termcolor_util >= 1.2.0, <2.0",
+        "PyYAML == 5.1.2",
     ],
     packages=packages,
     package_data={"": ["*.txt", "*.rst"]},

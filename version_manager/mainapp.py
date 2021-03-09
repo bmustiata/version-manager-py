@@ -77,13 +77,13 @@ def main() -> None:
         "values. Upstream values are still being patched if existing.",
     )
     parser.add_argument(
-        "--version", action="store_true", help="Show the program version (0.1.master)",
+        "--version", action="store_true", help="Show the program version (2021.03.1)",
     )
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.version:
-        print(cyan("version-manager: 0.1.master"))
+        print(cyan("version-manager: 2021.03.1"))
         sys.exit(0)
 
     if argv.tag_name:
@@ -94,7 +94,10 @@ def main() -> None:
     override_parameters = get_parameters_from_file(argv.load)
     override_parameters = get_parameter_values(override_parameters, argv.set)
     versions_to_process = read_settings_file(
-        default_settings_file, override_parameters, argv.ignore_missing_parents
+        default_settings_file,
+        override_parameters,
+        argv.ignore_missing_parents,
+        cwd=os.path.dirname(default_settings_file),
     )
 
     # Display a single tracked version

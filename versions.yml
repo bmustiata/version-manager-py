@@ -24,5 +24,5 @@ requirements:
 # other dependent builds can then depend on the latest
 # version to have the latest release.
 latest:
-  version: "2021.03.5"  # latest
+  version: "2021.3.7"  # latest
 

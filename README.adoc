@@ -1,4 +1,4 @@
-= vm 2021.03.5
+= vm 2021.3.7
 
 Updates versions across multiple files.
 
@@ -32,7 +32,7 @@ Help:
 -----------------------------------------------------------------------------
 usage: version-manager [-h] [--display NAME] [--all]
                        [--set NAME=VAL [NAME=VAL ...]] [--load FILE] [-t]
-                       [--ignore-missing-parents] [--version]
+                       [--ignore-missing-parents] [--version] [-st TAG]
 
 Versions processor
 
@@ -52,22 +52,17 @@ optional arguments:
                         Ignore missing parents, and simply don't patch the
                         values. Upstream values are still being patched if
                         existing.
-  --version             Show the program version (2021.03.4)
+  --version             Show the program version (0.1.master)
+  -st TAG, --set-tag TAG
+                        Override the current tag returned by nested calls of
+                        `vm -t`. This works by setting the VERSION_MANAGER_TAG
+                        in the environment of the current process.
 -----------------------------------------------------------------------------
 
 == Specifying Versions
 
 The version value will be expanded using the shell if it contains a '$' or a
 '`', so you can have a version such as:
-
-[source,json]
------------------------------------------------------------------------------
-"description": {
-  "version": "Built at $(date) on $(uname -n)"
-}
------------------------------------------------------------------------------
-
-or YAML:
 
 [source,yaml]
 -----------------------------------------------------------------------------
@@ -77,13 +72,6 @@ description:
 
 Versions can also refer to other version files, and extract properties from
 there, using the `parent:` notation in the version:
-
-[source,json]
------------------------------------------------------------------------------
-"germaniumdrivers": {
-  "version": "parent:../germanium/@germaniumdrivers"
-}
------------------------------------------------------------------------------
 
 [source,yaml]
 -----------------------------------------------------------------------------
@@ -106,80 +94,51 @@ version-manager -s germanium=2.0.8
 This will ignore the value specified in the versions.yml file, and use the
 specified one.
 
-== Feature Branches
+== File Expressions
 
-The version can also be prefixed by `upstream:`. In that case if the currently
-checked out branch name contains `-x-`, or the exported BRANCH_NAME environment
-variable has that name, the version returned by `version-manager --tag` will be
-used instead.
+File expressions are what describes what needs to be patched and where.
+They belong as value entries inside the `files` mapping. There are
+currently only three file expression types:
 
-[source,yaml]
------------------------------------------------------------------------------
-germaniumdrivers:
-  version: "upstream:1.1.0"
------------------------------------------------------------------------------
-
-As long as the branch is not marked to contain cross feature branches
-dependencies with `-x-` it will return `1.1.0`.
-
-This also works for parent branches, so you can have:
-
-[source,yaml]
------------------------------------------------------------------------------
-germaniumdrivers:
-  version: "parent:upstream:../germanium/@germaniumdrivers"
------------------------------------------------------------------------------
-
-If the branch name is for example: `feature/UI-123-x-test-new-drivers` the
-`parent:` value will not be read, and `0.1-feature_UI-123-x-test-new-drivers`
-will be returned as the value.
-
-== File Matchers
-
-There are currently only three file matchers:
-
-=== RegExp File Matcher
+=== RegExp File
 
 It is a RegExp that has two or three groups, and it will have the 
 second group replaced to the matched version.
 
-=== **VERSION** File Matcher
+For example:
+
+[source,yaml]
+-----------------------------------------------------------------------------
+README: "(This installs version )(.+?)( of the product\\.)"
+-----------------------------------------------------------------------------
+
+Whatever it's in group one and three gets kept, and the second group
+gets replaced with the actual value that got resolved.
+
+=== **VERSION** File
 
 This will construct a RegExp that will match exactly the given text, with
 the `**VERSION**` being the second group.
 
 So having a matcher such as:
 
-[source,json]
+[source,yaml]
 -----------------------------------------------------------------------------
-"files": {
-    "README": "This installs version **VERSION** of the product."
-}
+README: "This installs version **VERSION** of the product."
 -----------------------------------------------------------------------------
 
 or yaml
 
 [source,yaml]
 -----------------------------------------------------------------------------
-files:
-  README: This installs version **VERSION** of the product.
+README: This installs version **VERSION** of the product.
 -----------------------------------------------------------------------------
 
-is equivalent with:
-
-[source,json]
------------------------------------------------------------------------------
-"files": {
-    "README": "(This installs version )(.+?)( of the product\\.)"
-}
------------------------------------------------------------------------------
-
-or yaml
+is equivalent with the following Regex expression:
 
 [source,yaml]
 -----------------------------------------------------------------------------
-files:
-  README: (This installs version )(.+?)( of the product\\.)
+README: "(This installs version )(.+?)( of the product\\.)"
 -----------------------------------------------------------------------------
 
 If the `**`s are replaced with `^^` at the beginning, or `$$` at the end, they
@@ -187,37 +146,23 @@ will act as RegExp anchors, equivalent to `^` and `$`. In case in the
 expression there is content before the `^^`, or after the `$$`, the content is
 ignored.
 
-=== maven: File Matcher
+=== maven Expressions
 
-This will construct a RegExp that will match:
+Maven expressions tries to match using GAV identifiers.
+These will construct a RegExp that will match:
 
-[source,text]
+[source,python]
 -----------------------------------------------------------------------------
-`(<groupId>${m[1]}</groupId>\\s*` +
-`<artifactId>${m[2]}</artifactId>\\s*` +
-`<version>)(.*?)(</version>)`;
------------------------------------------------------------------------------
-
-In order to specify the matcher, just use:
-
-[source,json]
------------------------------------------------------------------------------
-{"germanium": {
-  "version": "2.0.0",
-  "files": {
-    "pom.xml": "maven:com.germaniumhq:germanium"
-  }
-}
+"(<groupId>group_id</groupId>\\s*"
+"<artifactId>artifact_id</artifactId>\\s*"
+"<version>)(.*?)(</version>)"
 -----------------------------------------------------------------------------
 
-or yaml
+In order to specify the matcher, just use the `maven:` prefix:
 
 [source,yaml]
 -----------------------------------------------------------------------------
-germanium:
-  version: 2.0.0
-  files:
-    pom.xml: maven:com.germaniumhq:germanium
+pom.xml: "maven:com.germaniumhq:germanium"
 -----------------------------------------------------------------------------
 
 == Matcher Constraints
@@ -335,4 +280,3 @@ or even individual expressions:
 3. `vm` will output the following error codes: 0 when no files are
    changed, 0 when files are changed successfuly, or a non zero error code in
    case of error.
-

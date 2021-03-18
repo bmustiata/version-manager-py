@@ -12,6 +12,12 @@ def print_current_tag_version() -> None:
 
 
 def get_current_tag_version() -> str:
+    # If we have the VERSION_MANAGER_TAG in the environment,
+    # we use it instead of whatever git tag, or derived name
+    # from the branch.
+    if "VERSION_MANAGER_TAG" in os.environ:
+        return os.environ["VERSION_MANAGER_TAG"]
+
     # if we have BRANCH_NAME in the environment, we use that one,
     # since it's already found for us.
     if "BRANCH_NAME" in os.environ:
@@ -39,10 +45,6 @@ def get_current_tag_version() -> str:
     ).decode("utf-8").strip()
 
     return f"0.1.{escape_tag_name(current_branch_name)}"
-
-
-def is_feature_branch():
-    return "-x-" in get_current_tag_version()
 
 
 def escape_tag_name(name: str) -> str:

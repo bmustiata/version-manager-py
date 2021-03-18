@@ -21,6 +21,7 @@ from version_manager.settings_reader import read_settings_file
 class ProgramArguments(object):
     display: List[str]
     tag_name: bool
+    set_tag: str
     load: Optional[str]
     version: bool
     ignore_missing_parents: bool
@@ -76,14 +77,28 @@ def main() -> None:
         "values. Upstream values are still being patched if existing.",
     )
     parser.add_argument(
-        "--version", action="store_true", help="Show the program version (2021.03.5)",
+        "--version",
+        action="store_true",
+        help="Show the program version (2021.3.7)",
+    )
+    parser.add_argument(
+        "-st",
+        "--set-tag",
+        metavar="TAG",
+        help="Override the current tag returned by nested calls of `vm -t`. "
+             "This works by setting the VERSION_MANAGER_TAG in the environment "
+             "of the current process.",
     )
 
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.version:
-        print(cyan("version-manager: 2021.03.5"))
+        print(cyan("version-manager: 2021.3.7"))
         sys.exit(0)
+
+    # update the current version name if needed
+    if argv.set_tag:
+        os.environ["VERSION_MANAGER_TAG"] = argv.set_tag
 
     if argv.tag_name:
         print_current_tag_version()

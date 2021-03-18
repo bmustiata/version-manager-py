@@ -1,23 +1,16 @@
-from typing import Dict
 import os
-import subprocess
 import re
+import subprocess
 from os import path
+from typing import Dict
 
 from version_manager.matchers.pattern import TrackedVersionSet
-from version_manager.util_find import find
 from version_manager.settings_reader import read_settings_file
-
-from version_manager.command_current_version import (
-    is_feature_branch,
-    get_current_tag_version,
-)
-
+from version_manager.util_find import find
 
 setting_files: Dict[str, TrackedVersionSet] = dict()
 
 PARENT_RE = re.compile(r"^parent:(.+)@(.+?)$")
-UPSTREAM_RE = re.compile(r"^upstream:(.+)$")
 
 
 class ParentNotFound(Exception):
@@ -41,15 +34,6 @@ def parse_parent_path(
 
     parent_versions_file_path = items.group(1)
     property_name = items.group(2)
-
-    upstream_items = UPSTREAM_RE.match(items.group(1))
-
-    if upstream_items:
-        if is_feature_branch():
-            return get_current_tag_version()
-
-        # if we didn't returned we need to romeve the upstream: part
-        parent_versions_file_path = upstream_items.group(1)
 
     full_path = path.realpath(path.join(cwd, parent_versions_file_path))
 
@@ -119,6 +103,7 @@ def parse_version_with_path(
     command = extract_command(version)
     result: str = subprocess.check_output(
             ["/bin/sh", "-c", command],
+            env=os.environ,
             encoding="utf-8",
             cwd=cwd,
     )

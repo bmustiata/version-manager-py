@@ -23,7 +23,7 @@ setup(
     install_requires=[
         "colorama == 0.4.3",
         "termcolor_util == 1.2.0",
-        "PyYAML == 5.1.2",
+        "PyYAML == 5.4",
     ],
     packages=packages,
     package_data={"": ["*.txt", "*.rst"]},

@@ -8,8 +8,8 @@ germanium_py_exe.pipeline(
         "run_flake8": False,
         "run_version_manager": False,
         "binaries": {
-            "name": "Python 3.7 on Linux x64",
-            "platform": "python:3.7",
+            "name": "Python 3.8 on Linux x64",
+            "platform": "python:3.8",
             "publish_pypi": "sdist",
         },
     }

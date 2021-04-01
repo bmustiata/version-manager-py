@@ -11,5 +11,5 @@ python setup.py install
 echo '#############################################################################'
 echo '# Create the single binary'
 echo '#############################################################################'
-pyinstaller pyinstaller_version_manager.spec
+# pyinstaller pyinstaller_version_manager.spec
 

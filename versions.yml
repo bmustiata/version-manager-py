@@ -15,6 +15,20 @@ usage:
   files:
     README.adoc: (Help:\n\n\[source,text\]\n----+\n)(.*?)(\n----+)
 
+##
+## DEPENDENCIES
+##
+PyYAML:
+  version: parent:../../deps/python@PyYAML
+  files:
+    requirements.txt: PyYAML == **VERSION$$
+
+colorama:
+  version: parent:../../deps/python@colorama
+  files:
+    requirements.txt: colorama == **VERSION$$
+
+# requirements should be last, since `versions.yml` might get patched.
 requirements:
   version: $(bin/requires_versions.py)
   files:
@@ -24,5 +38,4 @@ requirements:
 # other dependent builds can then depend on the latest
 # version to have the latest release.
 latest:
-  version: "2021.3.7"  # latest
-
+  version: "2021.4.1"  # latest

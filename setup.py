@@ -8,7 +8,7 @@ packages = find_packages()
 
 setup(
     name="vm",
-    version="2021.3.7",
+    version="2021.4.1",
     description="version_manager",
     long_description=readme,
     author="Bogdan Mustiata",
@@ -21,8 +21,8 @@ setup(
         ]
     },
     install_requires=[
-        "colorama >= 0.4.3",
-        "termcolor_util >= 1.2.0, <2.0",
+        "colorama == 5.1.2",
+        "termcolor_util == 1.2.0",
         "PyYAML == 5.1.2",
     ],
     packages=packages,

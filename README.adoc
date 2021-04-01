@@ -1,4 +1,4 @@
-= vm 2021.3.7
+= vm 2021.4.1
 
 Updates versions across multiple files.
 
@@ -52,7 +52,7 @@ optional arguments:
                         Ignore missing parents, and simply don't patch the
                         values. Upstream values are still being patched if
                         existing.
-  --version             Show the program version (0.1.master)
+  --version             Show the program version (2021.4.1)
   -st TAG, --set-tag TAG
                         Override the current tag returned by nested calls of
                         `vm -t`. This works by setting the VERSION_MANAGER_TAG

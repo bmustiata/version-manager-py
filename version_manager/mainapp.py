@@ -79,7 +79,7 @@ def main() -> None:
     parser.add_argument(
         "--version",
         action="store_true",
-        help="Show the program version (2021.4.1)",
+        help="Show the program version (2021.4.2)",
     )
     parser.add_argument(
         "-st",
@@ -93,7 +93,7 @@ def main() -> None:
     argv: ProgramArguments = cast(ProgramArguments, parser.parse_args(sys.argv[1:]))
 
     if argv.version:
-        print(cyan("version-manager: 2021.4.1"))
+        print(cyan("version-manager: 2021.4.2"))
         sys.exit(0)
 
     # update the current version name if needed

@@ -1,23 +1,5 @@
-version:
-  version: $(version-manager --tag)
-  files:
-    setup.py: version="**VERSION**",
-    README.adoc:
-      - '= vm **VERSION$$'
-      - Show the program version (**VERSION**)
-    version_manager/mainapp.py:
-      - help="Show the program version (**VERSION**)",
-      - 'print(cyan("version-manager: **VERSION**"))'
-    versions.yml: '(^  version: ")(.+?)("  # latest)$'
-
-usage:
-  version: $(version-manager --help)
-  files:
-    README.adoc: (Help:\n\n\[source,text\]\n----+\n)(.*?)(\n----+)
-
-##
-## DEPENDENCIES
-##
+# We patch first the dependencies. Files are processed in the order
+# they appear.
 PyYAML:
   version: parent:../../deps/python@PyYAML
   files:
@@ -27,6 +9,23 @@ colorama:
   version: parent:../../deps/python@colorama
   files:
     requirements.txt: colorama == **VERSION$$
+
+version:
+  version: $(version-manager --tag)
+  files:
+    versions.yml: '(^  version: ")(.+?)("  # latest)$'
+    setup.py: version="**VERSION**",
+    README.adoc:
+      - '= vm **VERSION$$'
+      - Show the program version (**VERSION**)
+    version_manager/mainapp.py:
+      - help="Show the program version (**VERSION**)",
+      - 'print(cyan("version-manager: **VERSION**"))'
+
+usage:
+  version: $(version-manager --help)
+  files:
+    README.adoc: (Help:\n\n\[source,text\]\n----+\n)(.*?)(\n----+)
 
 # requirements should be last, since `versions.yml` might get patched.
 requirements:
@@ -38,4 +37,4 @@ requirements:
 # other dependent builds can then depend on the latest
 # version to have the latest release.
 latest:
-  version: "2021.4.1"  # latest
+  version: "2021.4.2"  # latest

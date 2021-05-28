@@ -1,6 +1,6 @@
 {
   "name": "germanium-vue-patternfly",
-  "version": "1.0.3",
+  "version": "2021.4.3",
   "description": "Selected components using Patternfly",
   "author": "Bogdan Mustiata <bogdan.mustiata@gmail.com>",
   "license": "AGPL",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "germanium-dom-util": "^1.0.0",
+    "germanium-dom-util": "^2021.4.3",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2"

@@ -26,7 +26,7 @@ def get_current_tag_version() -> str:
         if "/" not in env_branch_name:
             return env_branch_name
 
-        return f"0.1.{escape_tag_name(env_branch_name)}"
+        return f"0.0.0-{escape_tag_name(env_branch_name)}"
 
     # We try to find if we have an annotated git tag
     try:
@@ -44,8 +44,8 @@ def get_current_tag_version() -> str:
         ["git", "rev-parse", "--abbrev-ref", "HEAD"]
     ).decode("utf-8").strip()
 
-    return f"0.1.{escape_tag_name(current_branch_name)}"
+    return f"0.0.0-{escape_tag_name(current_branch_name)}"
 
 
 def escape_tag_name(name: str) -> str:
-    return re.sub(r"[^A-Za-z-0-9]", "_", name)
+    return re.sub(r"[^A-Za-z-0-9]", "-", name)

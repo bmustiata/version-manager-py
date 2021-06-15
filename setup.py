@@ -8,7 +8,7 @@ packages = find_packages()
 
 setup(
     name="vm",
-    version="2021.4.2",
+    version="2021.6.1",
     description="version_manager",
     long_description=readme,
     author="Bogdan Mustiata",

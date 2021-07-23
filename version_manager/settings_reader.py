@@ -5,6 +5,7 @@ from typing import Dict, Optional
 import yaml
 from termcolor_util import red
 
+from .custom.custom_settings import ExtraSettings
 from .matcher_builder import matcher_builder
 from .matchers.pattern import TrackedVersionSet, TrackedVersion
 
@@ -31,11 +32,14 @@ def read_settings_file(
             sys.exit(1)
 
     with open(settings_file, "r", encoding="utf-8") as stream:
-        settings = list(yaml.safe_load_all(stream))[0]
+        settings_items = list(yaml.safe_load_all(stream))
+
+    tracked_entries = read_tracked_entries(settings_items)
+    extra_settings = read_extra_settings(settings_items)
 
     result = list()
 
-    for name, tracked_entry in settings.items():
+    for name, tracked_entry in tracked_entries.items():
         if display_item and name != display_item:
             continue
 
@@ -56,7 +60,9 @@ def read_settings_file(
 
             for file_name in tracked_files.keys():
                 tracked_file = matcher_builder(
-                    tracked_version, tracked_files[file_name]
+                    tracked_version=tracked_version,
+                    file_item=tracked_files[file_name],
+                    extra_settings=extra_settings,
                 )
                 tracked_version.files[file_name] = tracked_file
         except ParentNotFound as e:
@@ -70,6 +76,17 @@ def read_settings_file(
             result.append(tracked_version)
 
     return result
+
+
+def read_extra_settings(settings_items):
+    if len(settings_items) > 1:
+        return settings_items[0]
+
+    return ExtraSettings()
+
+
+def read_tracked_entries(settings_items):
+    return settings_items[len(settings_items) - 1]
 
 
 def report_missing_settings_file(settings_file: str) -> None:

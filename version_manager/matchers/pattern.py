@@ -1,5 +1,5 @@
+from abc import ABCMeta, abstractmethod
 from typing import Dict, List
-from abc import ABCMeta, abstractmethod, abstractproperty
 
 
 class Pattern(metaclass=ABCMeta):
@@ -9,11 +9,13 @@ class Pattern(metaclass=ABCMeta):
     def apply_pattern(self, input: str) -> str:
         pass
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def match_count(self) -> int:
         pass
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def expected_count(self) -> int:
         pass
 

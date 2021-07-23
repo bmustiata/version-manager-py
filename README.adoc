@@ -12,19 +12,22 @@ pip install vm
 
 == Usage
 
-You need a `versions.json`, or a `versions.yml` where you can specify for what
+You need a `versions.yml`, or a `versions.json` where you can specify for what
 you're tracking the versions, and what files to be updated using glob patterns:
 
 [source,yaml]
 -----------------------------------------------------------------------------
-germanium:
-  version: 1.10.3
-  files:
+germanium:  # <1>
+  version: 1.10.3  # <2>
+  files:  # <3>
     README.*: "^(germanium )(.*?)$"
     setup.py: "version='**VERSION**',"
     doc/usage/index.adoc: "^(= Germanium v)(.*?)$"
     germanium/version.py: "current = \"**VERSION**\""
 -----------------------------------------------------------------------------
+1. The name of the variable we want to update
+2. The value of the variable (can also use shell commands to be computed)
+3. The files, and corresponding expressions we want to use for patching the files
 
 Help:
 
@@ -59,7 +62,17 @@ optional arguments:
                         in the environment of the current process.
 -----------------------------------------------------------------------------
 
-== Specifying Versions
+== Specifying Versions Values
+
+When we'll patch some value in some file, we need first to obtain the actual
+value we want to write.
+
+The first most obvious answer is that static values are kept as they are:
+
+```
+description:
+  version: Awesome code
+```
 
 The version value will be expanded using the shell if it contains a '$' or a
 '`', so you can have a version such as:
@@ -94,15 +107,19 @@ version-manager -s germanium=2.0.8
 This will ignore the value specified in the versions.yml file, and use the
 specified one.
 
+After we obtained that value we wanted to write, we need to patch the files
+somehow. For this we use experssions.
+
 == File Expressions
 
 File expressions are what describes what needs to be patched and where.
 They belong as value entries inside the `files` mapping. There are
-currently only three file expression types:
+currently only two file expression types (maven is deprecated in favor of
+custom expressions in custom settings):
 
 === RegExp File
 
-It is a RegExp that has two or three groups, and it will have the 
+It is a RegExp that has two or three groups, and it will have the
 second group replaced to the matched version.
 
 For example:
@@ -146,7 +163,29 @@ will act as RegExp anchors, equivalent to `^` and `$`. In case in the
 expression there is content before the `^^`, or after the `$$`, the content is
 ignored.
 
-=== maven Expressions
+=== Custom Expressions
+
+Another way to specify the expressions is through the custom settings section,
+where complex RegEx expressions can be externalized:
+
+[source,yaml]
+-----------------------------------------------------------------------------
+custom:
+  pip: pip_library\(\s*name\s*=\s*"$1"\s*,\s*version\s*=\s*"$value"\s*,?\s*\)
+---
+pyyaml:
+  version: 3.0
+  files:
+    build/thirdparty/python/BUILD: pip:PyYAML
+    build/thirdparty/gepython/BUILD: pip:PyYAML
+-----------------------------------------------------------------------------
+
+The value for matching are expected to have multiple `:` separated values, and
+can be referred in the regex as `{var1}`, `{var2}` etc. The actual values for
+`var*` variables will be regex escaped, so they'll match as they are.
+
+
+=== maven Expressions (deprecated)
 
 Maven expressions tries to match using GAV identifiers.
 These will construct a RegExp that will match:

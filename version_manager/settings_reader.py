@@ -5,6 +5,7 @@ from typing import Dict, Optional
 import yaml
 from termcolor_util import red
 
+from .custom.custom_pattern_definition import CustomPatternDefinition
 from .custom.custom_settings import ExtraSettings
 from .matcher_builder import matcher_builder
 from .matchers.pattern import TrackedVersionSet, TrackedVersion
@@ -79,10 +80,21 @@ def read_settings_file(
 
 
 def read_extra_settings(settings_items):
-    if len(settings_items) > 1:
-        return settings_items[0]
+    if len(settings_items) <= 1:
+        return ExtraSettings()
 
-    return ExtraSettings()
+    result = ExtraSettings()
+
+    extra_settings_dict = settings_items[0]
+
+    if "custom" not in extra_settings_dict:
+        raise Exception("Missing `custom` definition for expressions")
+
+    for k, v in extra_settings_dict["custom"].items():
+        result.custom_pattern_definitions[k] = CustomPatternDefinition(name=k, regex=v)
+
+    return result
+
 
 
 def read_tracked_entries(settings_items):

@@ -7,8 +7,8 @@ python_binary(
     "version_manager/__main__.py",
   ]),
   deps=[
-    "//build/thirdparty/python:colorama",
-    "//build/thirdparty/python:PyYAML",
+    "//_build/thirdparty/python:colorama",
+    "//_build/thirdparty/python:PyYAML",
 
     "//tools/termcolor-util:termcolor-util-lib",
   ],
